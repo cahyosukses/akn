@@ -10,15 +10,17 @@ www.amitjakhu.com
 
 <!--META-->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Login Form</title>
+<title>Login Form | AKN</title>
 
 <!--STYLESHEETS-->
 <link href="<?= base_url('assets/css/login.css') ?>" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="<?= base_url('assets/img/favicon.png') ?>" />
-
+<link href="<?= base_url('assets/css/pnotify.custom.min.css') ?>" rel="stylesheet" type="text/css" />
 <!--SCRIPTS-->
 <script type="text/javascript" src="<?= base_url('assets/js/jquery.min.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/jquery.cookies.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/pnotify.custom.min.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/library.js') ?>"></script>
 <!--Slider-in icons-->
 <script type="text/javascript">
     $(document).ready(function() {
@@ -68,16 +70,10 @@ www.amitjakhu.com
                 if(data.status === 'login'){
                     location.href='<?= base_url('') ?>';
                 } else {
-                    $('#username-label').html('Username :');
-                    $('#password-label').html('Password :');
-                    $('#username').focus().select();
-                    $('#username-check .loadingbar,#password-check .loadingbar').fadeOut();
-                    $('.loading').hide();
-                    $('.warning').show().html('Username atau password yang Anda masukkan salah !');
+                    dinamic_message('Peringatan','Username dan password harus diisikan secara benar !');
                 }            
             }, error: function() {
-                $('.loading').hide();
-                $('.warning').show().html('Username atau password yang Anda masukkan salah !');
+                dinamic_message('Peringatan','Username dan password harus diisikan secara benar !');
             }
         });
         return false;
@@ -107,7 +103,7 @@ www.amitjakhu.com
 	
 	<!--CONTENT-->
     <div class="content">
-	<!--USERNAME--><input name="username" type="text" class="input username" placeholder='Username ...' " /><!--END USERNAME-->
+	<!--USERNAME--><input name="username" type="text" class="input username" placeholder="Username ... " /><!--END USERNAME-->
     <!--PASSWORD--><input name="password" type="password" class="input password" placeholder="Password ..." /><!--END PASSWORD-->
     </div>
     <!--END CONTENT-->

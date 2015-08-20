@@ -1,191 +1,151 @@
 <title><?= $title ?></title>
-
-<?= $this->load->view('message') ?>
 <script type="text/javascript">
-$(function() {
-    
-    $('#tabs').tabs();
-    //get_list_jenis_penerimaan(1);
-    form_cari_jenis_penerimaan();
-    $('#add_jenis_penerimaan').button({
-        icons: {
-            secondary: 'ui-icon-newwin'
-        }
-    }).click(function() {
-        form_jenis_penerimaan();
-    });
-    
-    $('#reload_jenis_penerimaan').button({
-        icons: {
-            secondary: 'ui-icon-refresh'
-        }
-    }).click(function() {
-        reset_form();
-        get_list_jenis_penerimaan();
-    });
-    
-    $('#cari_button').button({
-        icons: {
-            secondary: 'ui-icon-search'
-        }
-    }).click(function() {
-        //$('#dialog_cari_jenis_penerimaan').dialog('open');
-        $('#datamodal').modal('show');
-    });
-});
-function get_list_jenis_penerimaan(page, id) {
-    var page= (page !== undefined)?page:1;
-    var id  = (id !== undefined)?id:'';
-    $.ajax({
-        url: '<?= base_url('masterdata/manage_jenis_penerimaan') ?>/list/'+page,
-        data: $('#form_cari_jenis_penerimaan').serialize()+'&id='+id,
-        cache: false,
-        success: function(data) {
-            $('#result').html(data);
-        }
-    });
-}
-
-function form_jenis_penerimaan() {
-    var str = '<div id="dialog_jenis_penerimaan"><form action="" id="form_jenis_penerimaan">'+
-            '<?= form_hidden('id_jenis_penerimaan', NULL, 'id=id_jenis_penerimaan') ?>'+
-            '<table width=100% cellpadding=0 cellspacing=0 class=inputan>'+
-                '<tr><td>Nama Penerimaan *:</td><td><?= form_input('nama', NULL, 'id=nama') ?></td></tr>'+
-                '<tr><td>Jenis Penerimaan *:</td><td><select name="jenis" id="jenis"><option value="">Pilih ...</option><option value="Mahasiswa">Mahasiswa</option><option value="Non Mahasiswa">Non Mahasiswa</option></select></td></tr>'+
-                '<tr><td>Status *:</td><td><select name="status" id="status"><option value="">Pilih ...</option><option value="SPP">SPP</option><option value="Non SPP">Non SPP</option></select></td></tr>'+
-                //'<tr><td width=30%>Nama Unit Satker:</td><td><?= form_input('nama', NULL, 'id=nama size=40 onKeyup="javascript:this.value=this.value.toUpperCase();"') ?></td></tr>'+
-            '</table>'+
-            '</form></div>';
-    $(str).dialog({
-        title: 'Tambah Jenis Penerimaan',
-        autoOpen: true,
-        width: 480,
-        height: 180,
-        modal: true,
-        hide: 'clip',
-        show: 'blind',
-        buttons: {
-            "Simpan": function() {
-                save_data();
-            }, "Cancel": function() {
-                $(this).dialog().remove();
-            }
-        }, close: function() {
-            $(this).dialog().remove();
-        }
-    });
-}
-
-function form_cari_jenis_penerimaan() {
-    var str = '<div id="dialog_cari_jenis_penerimaan"><form action="" id="form_cari_jenis_penerimaan">'+
-            '<table width=100% cellpadding=0 cellspacing=0 class=inputan>'+
-                '<tr><td>Nama Penerimaan :</td><td><?= form_input('nama', NULL, '') ?></td></tr>'+
-                '<tr><td>Jenis Penerimaan :</td><td><select name="jenis"><option value="">Pilih ...</option><option value="Mahasiswa">Mahasiswa</option><option value="Non Mahasiswa">Non Mahasiswa</option></select></td></tr>'+
-                '<tr><td>Status :</td><td><select name="status"><option value="">Pilih ...</option><option value="SPP">SPP</option><option value="Non SPP">Non SPP</option></select></td></tr>'+
-                //'<tr><td width=30%>Nama Unit Satker:</td><td><?= form_input('nama', NULL, 'id=nama size=40 onKeyup="javascript:this.value=this.value.toUpperCase();"') ?></td></tr>'+
-            '</table>'+
-            '</form></div>';
-    $(str).dialog({
-        title: 'Cari Jenis Penerimaan',
-        autoOpen: false,
-        width: 480,
-        height: 180,
-        modal: true,
-        hide: 'clip',
-        show: 'blind',
-        buttons: {
-            "Cari": function() {
-                get_list_jenis_penerimaan(1);
-                $(this).dialog('close');
-            }, "Cancel": function() {
-                $(this).dialog('close');
-            }
-        }, close: function() {
-            $(this).dialog('close');
-        }
-    });
-}
-
-function reset_form() {
-    $('input, select, textarea').val('');
-    $('input[type=checkbox], input[type=radio]').removeAttr('checked');
-}
-
-function save_data() {
-    if ($('#nama').val() === '') {
-        custom_message('Peringatan', 'Nama penerimaan tidak boleh kosong !', '#nama');
-        $('#nama').focus(); return false;
-    }
-    if ($('#jenis').val() === '') {
-        custom_message('Peringatan', 'Jenis penerimaan tidak boleh kosong !', '#jenis');
-        $('#jenis').focus(); return false;
-    }
-    if ($('#status').val() === '') {
-        custom_message('Peringatan', 'Status penerimaan tidak boleh kosong !', '#status');
-        $('#status').focus(); return false;
-    }
-    var cek_id = $('#id_jenis_penerimaan').val();
-    $.ajax({
-        url: '<?= base_url('masterdata/manage_jenis_penerimaan/save') ?>',
-        type: 'POST',
-        dataType: 'json',
-        data: $('#form_jenis_penerimaan').serialize(),
-        cache: false,
-        success: function(data) {
-            if (data.status === true) {
-                if (cek_id === '') {
-                    reset_form();
-                    alert_tambah();
-                    get_list_jenis_penerimaan('1','',data.id_jenis_penerimaan);
-                } else {
-                    alert_edit();
-                    $('#form_add').dialog().remove();
-                    get_list_jenis_penerimaan($('.noblock').html(),'');
+    $(document).ready(function() {
+    tinyMCE.init({
+        selector: "textarea#isi",
+        theme: "modern",
+        menubar: "tools table format view insert edit",
+        force_br_newlines : false,
+        force_p_newlines : false,
+        forced_root_block : '',
+        valid_children : "+body[style],-body[div],p[strong|a|#text]",
+        valid_elements : '*[*]',
+        plugins: [
+            "advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste"
+        ],
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        setup: function(ed){
+            ed.on("init",
+                function(ed) {
+                    tinyMCE.get('textarea#isi');
+                    tinyMCE.execCommand('mceRepaint');
                 }
-            }
+            );
         }
     });
-}
+    });
+    $(function() {
+        //show_ajax_indicator();
+        get_list_contact(1);
+        $('#edit_contact').click(function() {
+            $('#datamodal').modal('show');
+            $('#datamodal h4.modal-title').html('Edit Detail Instansi');
+            $.ajax({
+                type: 'GET',
+                url: '<?= base_url('api/restrictarea/contacts') ?>/page/1/id/',
+                dataType: 'json',
+                success: function(data) {
+                    $('#id').val(data.data[0].id);
+                    $('#nama').val(data.data[0].nama);
+                    $('#alamat').val(data.data[0].alamat);
+                    $('#kode_pos').val(data.data[0].kode_pos);
+                    $('#telp').val(data.data[0].telp);
+                    $('#fax').val(data.data[0].fax);
+                    $('#email').val(data.data[0].email);
+                    $('#website').val(data.data[0].website);
+                }
+            });
+        });
 
-function edit_jenis_penerimaan(str) {
-    var arr = str.split('#');
-    form_jenis_penerimaan();
-    $('#id_jenis_penerimaan').val(arr[0]);
-    $('#nama').val(arr[1]);
-    $('#jenis').val(arr[3]);
-    $('#status').val(arr[2]);
-    $('#dialog_jenis_penerimaan').dialog({ title: 'Edit Jenis Penerimaan' });
-}
-
-function paging(page, tab, search) {
-    get_list_jenis_penerimaan(page, search);
-}
-
-function delete_jenis_penerimaan(id, page) {
-    $('<div id=alert>Anda yakin akan menghapus data ini?</div>').dialog({
-        title: 'Konfirmasi Penghapusan',
-        autoOpen: true,
-        modal: true,
-        buttons: {
-            "OK": function() {
-                
-                $.ajax({
-                    url: '<?= base_url('masterdata/manage_jenis_penerimaan/delete') ?>?id='+id,
-                    cache: false,
-                    success: function() {
-                        get_list_jenis_penerimaan(page);
-                        $('#alert').dialog().remove();
-                    }
-                });
+        $('#reload_contact').click(function() {
+            reset_form();
+            get_list_contact(1);
+        });
+    });
+    
+    function get_list_contact(p, id) {
+        $('#form-pencarian').modal('hide');
+        var id = '';
+        $.ajax({
+            type : 'GET',
+            url: '<?= base_url("api/restrictarea/contacts") ?>/page/'+p+'/id/'+id,
+            data: '',
+            cache: false,
+            dataType: 'json',
+            beforeSend: function() {
+                show_ajax_indicator();
             },
-            "Cancel": function() {
-                $(this).dialog().remove();
+            success: function(data) {
+                $('#nama_instansi').html(data.data[0].nama);
+                $('#alamat_instansi').html(data.data[0].alamat);
+                $('#kode_pos_instansi').html(data.data[0].kode_pos);
+                $('#telp_instansi').html(data.data[0].telp);
+                $('#fax_instansi').html(data.data[0].fax);
+                $('#email_instansi').html(data.data[0].email);
+                $('#website_instansi').html(data.data[0].website);
+            },
+            complete: function() {
+                hide_ajax_indicator();
+            },
+            error: function(e){
+                hide_ajax_indicator();
             }
-        }
-    });
-}
+        });
+    }
+
+    function reset_form() {
+        $('input, select, textarea').val('');
+        $('#oldpict').html('');
+        $('input[type=checkbox], input[type=radio]').removeAttr('checked');
+    }
+        
+    function paging(p) {
+        get_list_contact(p);
+    }
+
+    function konfirmasi_save() {
+        
+        bootbox.dialog({
+            message: "Anda yakin akan menyimpan data ini?",
+            title: "Konfirmasi Simpan",
+            buttons: {
+              batal: {
+                label: '<i class="fa fa-times-circle"></i> Tidak',
+                className: "btn-default",
+                callback: function() {
+
+                }
+              },
+              ya: {
+                label: '<i class="fa fa-save"></i>  Ya',
+                className: "btn-primary",
+                callback: function() {
+                    save_contact();
+                }
+              }
+            }
+          });
+      }
+
+    function save_contact() {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('api/restrictarea/contact') ?>',
+            dataType: 'json',
+            data: $('#formadd').serialize(),
+            beforeSend: function() {
+                show_ajax_indicator();
+            },
+            success: function(msg) {
+                var page = $('.pagination .active a').html();
+                $('#datamodal').modal('hide');
+                hide_ajax_indicator();
+                message_edit_success();
+                get_list_contact(1);
+            },
+            error: function() {
+                $('#datamodal').modal('hide');
+                var page = $('.pagination .active a').html();
+                get_list_contact(page);
+                hide_ajax_indicator();
+            }
+        });
+    }
+
 </script>
-<div class="content">
+    <div class="content">
       <ul class="breadcrumb">
         <li>
           <p>YOU ARE HERE</p>
@@ -195,56 +155,90 @@ function delete_jenis_penerimaan(id, page) {
       <div class="row">
         <div class="col-md-12">
           <div class="grid simple ">
-        <div class="grid-title no-border">
-        <h4>Message <span class="semi-bold">boxes</span></h4>
-        <div class="tools"> 
-            <button id="add_jenis_penerimaan" class="btn btn-mini"><i class="fa fa-plus-circle"></i> Tambah Data</button>
-            <button id="reload_jenis_penerimaan" class="btn btn-mini"><i class="fa fa-refresh"></i> Reload Data</button>
-            <button id="cari_button" class="btn btn-mini"><i class="fa fa-search"></i> Cari</button>
-        </div>
-        </div>
-        <div class="grid-body no-border">
-        <div class="row-fluid">
-            <div id="result">
-
+            <div class="grid-title">
+              <h4>Kontak Kami</h4>
+              <div class="tools"> 
+                <button id="edit_contact" class="btn btn-info btn-mini"><i class="fa fa-plus-circle"></i> Edit</button>
+                    <!--<button id="cari_button" class="btn btn-mini"><i class="fa fa-search"></i> Cari</button>-->
+                <button id="reload_berita" class="btn btn-mini"><i class="fa fa-refresh"></i> Reload</button>
+              </div>
             </div>
-        </div>
-        </div>
-        <div id="datamodal" class="modal fade">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Modal title</h4>
+            <div class="grid-body">
+              <div class="scroller" data-height="220px">
+                  <table width="100%">
+                      <tr valign="top">
+                          <td width="50%">
+                                <h4><span class="semi-bold">Nama Instansi:</span></h4>
+                                <p id="nama_instansi"></p>
+                                <h4><span class="semi-bold">Alamat:</span></h4>
+                                <p id="alamat_instansi"></p>
+                                <h4><span class="semi-bold">Kode Pos:</span></h4>
+                                <p id="kode_pos_instansi"></p>
+                                <h4><span class="semi-bold">Telp:</span></h4>
+                                <p id="telp_instansi"></p>
+                          </td>
+                          <td width="50%">
+                                <h4><span class="semi-bold">Fax:</span></h4>
+                                <p id="fax_instansi"></p>
+                                <h4><span class="semi-bold">Email:</span></h4>
+                                <p id="email_instansi"></p>
+                                <h4><span class="semi-bold">Website:</span></h4>
+                                <p id="website_instansi"></p>
+                          </td>
+                      </tr>
+                  </table>
+              </div>
             </div>
-            <div class="modal-body">
-              <form action="" id="search_renbut" role="form" class="form-horizontal">
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">@</span>
-                    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+          </div>
+            <div id="datamodal" class="modal fade">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title"></h4>
                 </div>
-
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
-                    <span class="input-group-addon" id="basic-addon2">@example.com</span>
+                <div class="modal-body">
+                <form id="formadd" method="post" role="form">
+                    <input type="hidden" name="id" id="id" />
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Nama Instansi:</label>
+                        <input type="text" name="nama"  class="form-control" id="nama">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Alamat:</label>
+                        <textarea name="alamat" class="form-control" id="alamat" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Kode Pos:</label>
+                        <input type="text" name="kode_pos"  class="form-control" id="kode_pos">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Telephone:</label>
+                        <input type="text" name="telp"  class="form-control" id="telp">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Fax:</label>
+                        <input type="text" name="fax"  class="form-control" id="fax">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Email:</label>
+                        <input type="text" name="email"  class="form-control" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Website:</label>
+                        <input type="text" name="website"  class="form-control" id="website">
+                    </div>
+                </form>
                 </div>
-
-                <div class="input-group">
-                    <span class="input-group-addon">$</span>
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                    <span class="input-group-addon">.00</span>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-refresh"></i> Batal</button>
+                  <button type="button" class="btn btn-primary" onclick="konfirmasi_save();"><i class="fa fa-save"></i> Simpan</button>
                 </div>
-            </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-refresh"></i> Batal</button>
-              <button type="button" class="btn btn-primary" id="save" onclick="get_list_renbut(1);"><i class="fa fa-eye"></i> Tampilkan</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
         </div>
-        </div>
+      </div>
       </div>
       <!-- END PAGE -->
     </div>

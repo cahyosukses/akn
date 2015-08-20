@@ -26,6 +26,7 @@
 <link href="<?= base_url('assets/css/custom-icon-set.css') ?>" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="<?= base_url('assets/css/select2.css') ?>" />
 <link rel="stylesheet" href="<?= base_url('assets/css/datepicker3.css') ?>" />
+<link rel="stylesheet" href="<?= base_url('assets/css/pnotify.custom.min.css') ?>" />
 
 <!-- END CSS TEMPLATE -->
 <script src="<?= base_url('assets/plugins/jquery-1.8.3.min.js') ?>" type="text/javascript"></script>
@@ -35,7 +36,10 @@
 <script type="text/javascript" src="<?= base_url('assets/js/bootbox.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/library.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/jquery.blockUI.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/tinymce/tinymce.min.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/jquery.form.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/tinymce/tinymce.min.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/pnotify.custom.min.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/bootstrap-datepicker.js') ?>"></script>
 <script type="text/javascript">
             
     function ganti_pwd() {
@@ -60,7 +64,9 @@
         return false;
     }
     $(function() {
-
+        $(".page-content").css("min-height", function(){ 
+            return $(this).height();
+        });
         $('#loading_content').ajaxStart(function(){ $(this).fadeIn(); });
         $('#loading_content').ajaxComplete(function(){ $(this).fadeOut(); });
 
@@ -80,17 +86,17 @@
             var status = jqxhr.statusText;
             var menu = $.cookie('url').trim();
 
-            alert_dinamic('Problem internal server, please contact your system administrator!');
+            //alert_dinamic('Problem internal server, please contact your system administrator!');
 
-            $.ajax({
-                type : 'POST',
-                url: '<?= base_url('display/submit_error') ?>',               
-                data: "url="+url+"&response="+res+"&status="+status+"&menu="+menu,
-                cache: false,
-                success: function(data) {
-                   // location.reload();
-                }
-            }); 
+//            $.ajax({
+//                type : 'POST',
+//                url: '<?= base_url('display/submit_error') ?>',               
+//                data: "url="+url+"&response="+res+"&status="+status+"&menu="+menu,
+//                cache: false,
+//                success: function(data) {
+//                   // location.reload();
+//                }
+//            }); 
         });
         $(document).ready(function(){
 
@@ -318,14 +324,16 @@
    <!-- BEGIN SIDEBAR MENU -->	
     <p class="menu-title">BROWSE <span class="pull-right"><a href="javascript:;"><i class="fa fa-refresh"></i></a></span></p>
     <ul>	
-        <li class="start active "> <a href="<?= base_url('user') ?>"> <i class="icon-custom-home"></i> <span class="title">Dashboard</span> <span class="selected"></span> <span class="badge badge-important pull-right">2</span></a> </li>
+        <li class="start active "> <a class="home" href="<?= base_url('user') ?>"> <i class="icon-custom-home"></i> <span class="title">Dashboard</span> <span class="selected"></span> <span class="badge badge-important pull-right">2</span></a> </li>
         <li class=" "> <a href="javascript:;;"> <i class="fa fa-windows"></i> <span class="title">Konten Website</span> <span class="selected"></span> <span class="arrow "></span></a> 
             <ul class="sub-menu">
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/news') ?>'); return false;" href="<?= base_url('') ?>"> Berita </a> </li>
+                <li> <a onclick="load_menu('<?= base_url('restrictarea/images') ?>'); return false;" href="<?= base_url('') ?>"> Upload Image </a> </li>
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/profile') ?>'); return false;" href="<?= base_url('') ?>"> Profil Universitas </a> </li>
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/prodi') ?>'); return false;" href="<?= base_url('') ?>"> Program Studi </a> </li>
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/contactus') ?>'); return false;" href="<?= base_url('') ?>"> Kontak Kami </a> </li>
-                <li> <a onclick="load_menu('<?= base_url('restrictarea/journal') ?>'); return false;" href="<?= base_url('') ?>"> Publikasi Ilmiah </a> </li>
+                <li> <a onclick="load_menu('<?= base_url('restrictarea/journal_category') ?>'); return false;" href="<?= base_url('') ?>"> Kategori Journal </a> </li>
+                <li> <a onclick="load_menu('<?= base_url('restrictarea/journal') ?>'); return false;" href="<?= base_url('') ?>"> Data Journal </a> </li>
             </ul>
         </li>
         <li class=" "> <a href="javascript:;;"> <i class="fa fa-graduation-cap"></i> <span class="title">Kemahasiswaan</span> <span class="selected"></span> <span class="arrow "></span></a> 
@@ -366,7 +374,9 @@
     </div>
     <!-- END MODEL-->
     <div class="clearfix"></div>
-    <div id="loaddata"></div>
+    <div id="loaddata">
+        
+    </div>
     
   </div>
 </div>

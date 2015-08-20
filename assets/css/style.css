@@ -1,5 +1,9 @@
+* {
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size: 13px;
+}
 /* Font Import */
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+/*@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);*/
 /* Font Import */
 /* cyrillic-ext */
 @font-face {
