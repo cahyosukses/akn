@@ -10,11 +10,10 @@ Licence URI: http://www.os-templates.com/template-terms
 <head>
 <title><?= $title ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <meta property="og:url"           content="<?= base_url('main/detailnews/'.$berita->id.'/'.  post_slug($berita->judul)) ?>" />
+<!--    <meta property="og:url"           content="<?= base_url('main/publikasi/'.$publikasi->id.'/'.  post_slug($publikasi->judul)) ?>" />
     <meta property="og:type"          content="website" />
     <meta property="og:title"         content="<?= $title ?>" />
-    <meta property="og:description"   content="<?= post_slug($berita->judul) ?>" />
-    <meta property="og:image"         content="<?= base_url('assets/img/berita/'.$berita->gambar) ?>" />
+    <meta property="og:description"   content="<?= post_slug($publikasi->judul) ?>" />-->
 
 <link rel="shortcut icon" href="<?= base_url('assets/img/favicon.png') ?>" />
 <link rel="stylesheet" href="<?= base_url('assets/sched/styles/layout.css') ?>" type="text/css" />
@@ -64,7 +63,7 @@ Licence URI: http://www.os-templates.com/template-terms
       <li>&#187;</li>
       <li><a href="<?= base_url('') ?>">Home</a></li>
       <li>&#187;</li>
-      <li><a href="#">Detail Berita</a></li>
+      <li><a href="<?= base_url('main/publikasi/'.$kategori->id.'/'.  post_slug($kategori->nama)) ?>"><?= $kategori->nama ?></a></li>
     </ul>
   </div>
 </div>
@@ -72,32 +71,44 @@ Licence URI: http://www.os-templates.com/template-terms
 <div class="wrapper col3">
   <div id="container">
     <div id="content">
-      <h1><?= $berita->judul ?></h1>
-      <img class="imgl" src="<?= base_url('assets/img/berita/'.$berita->gambar) ?>" width="400" align="left" />
-      <?= $berita->isi ?>
-      
-      <div id="fb-root"></div>
-        <script>(function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=345250711962";
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
-
-        <!-- Your share button code -->
-        <br/><br/>
-        <div class="fb-share-button" data-href="<?= base_url('main/detailnews/'.$berita->id.'/'.  post_slug($berita->judul)) ?>" data-layout="button_count"></div>
+      <h1>Kategori <?= $kategori->nama ?></h1>
+      <?php
+      if (sizeof($publikasi) > 0) {
+        foreach ($publikasi as $data) { 
+            $penulis = explode(';', $data->penulis);
+            ?>
+      <p><b><?= $data->judul ?></b></p>
+      <?php foreach ($penulis as $ke => $pnls) { ?>
+      <p>Penulis <?= ++$ke ?> : <?= $pnls ?></p>
+      <?php } ?><br/>
+      <p><b>Abstrak</b></p>
+      <p><?= $data->abstract_id ?></p>
+      <p><b>Kata Kunci: </b><?= $data->keywords_id ?></p>
+      <p>&nbsp;</p>
+      <p><b>Abstract</b></p>
+      <p><?= $data->abstract_en ?></p>
+      <p><b>Keywords: </b><?= $data->keywords_en ?></p>
+      <?php }
+      } else { ?>
+        <i>Belum ada publikasi ilmiah pada kategori ini ..!</i>
+      <?php }
+      ?>
     </div>
     <div id="column" class="scrollable" style="max-height: 900px; overflow-y: auto;">
-        <h2>Berita Lainnya</h2>
-        <ul class="news-on-detail">
-            <?php foreach ($berita_lain as $data) { ?>
+        <h2>Lainnya di <?= $kategori->nama ?></h2>
+        <ul class="content-block-link">
+            <?php foreach ($publikasi_satu_kategori as $data) { ?>
               <li>
-                  <a href="#"><img src="<?= base_url('assets/img/berita/'.$data->gambar) ?>" alt="" style="width: 80px; height: 80px; float: left;" /></a>
-                  <b><strong><a href="<?= base_url('main/detailnews/'.$data->id.'/'.post_slug($data->judul)) ?>"><?= $data->judul ?></a></strong></b><br/>
-                  <small>Tanggal: <?= datetimefmysql($data->tanggal, true) ?></small>
-                  <p><?= substr(strip_tags($data->isi), 0, 200) ?> ...</p>
+                  <a href="<?= base_url('main/publikasidetail/'.$data->id_journal_category.'/'.$data->id.'/'.post_slug($data->judul)) ?>"><?= $data->judul ?></a>
+                  <br /><small><span>Tanggal Publish: <?= indo_tgl($data->tanggal) ?></span></small>
+              </li>
+            <?php } ?>
+        </ul>
+        <h2>Kategori Lainnya</h2>
+        <ul class="news-on-detail">
+            <?php foreach ($publikasi_lain as $i => $data) { ?>
+              <li>
+                  <div class="circleBase2 type2"> <?= ++$i ?></div> <strong><a href="<?= base_url('main/publikasi/'.$data->id.'/'.post_slug($data->nama)) ?>"><?= $data->nama ?></a></strong>
               </li>
             <?php } ?>
         </ul>
@@ -108,16 +119,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ####################################################################################################### -->
 <div class="wrapper col4">
   <div id="footer">
-    <div class="footbox">
-      <h2>Kontak Kami</h2>
-      <ul>
-        <li>Alamat: <?= $contact->alamat ?> <?= $contact->kode_pos ?></li>
-        <li>Telp: <?= $contact->telp ?></li>
-        <li>Fax: <?= $contact->fax ?></li>
-        <li>Email: <?= $contact->email ?></li>
-        <li class="last">Website: <?= $contact->website ?></li>
-      </ul>
-    </div>
+    <?= $this->load->view('footbox') ?>
     <br class="clear" />
   </div>
 </div>

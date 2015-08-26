@@ -3,22 +3,40 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/akn/application/config/routes.php</file>
-            <file>file:/C:/wamp/www/akn/application/controllers/main.php</file>
-            <file>file:/C:/wamp/www/akn/application/views/public.php</file>
-            <file>file:/C:/wamp/www/akn/assets/sched/styles/layout.css</file>
-            <file>file:/C:/wamp/www/akn/assets/sched/styles/navi.css</file>
-            <file>file:/C:/wamp/www/akn/assets/sched/styles/tables.css</file>
-            <file>file:/C:/wamp/www/akn/assets/sched/styles/loginslider.css</file>
             <file>file:/C:/wamp/www/akn/application/views/nav.php</file>
-            <file>file:/C:/wamp/www/akn/application/models/m_main.php</file>
-            <file>file:/C:/wamp/www/akn/assets/sched/styles/featured_slide.css</file>
-            <file>file:/C:/wamp/www/akn/application/views/main/detail-news.php</file>
-            <file>file:/C:/wamp/www/akn/application/helpers/functions_helper.php</file>
-            <file>file:/C:/wamp/www/akn/application/controllers/user.php</file>
             <file>file:/C:/wamp/www/akn/application/views/logmein.php</file>
-            <file>file:/C:/wamp/www/akn/application/views/restricted/news.php</file>
+            <file>file:/C:/wamp/www/akn/application/models/m_main.php</file>
+            <file>file:/C:/wamp/www/akn/assets/sched/styles/layout.css</file>
+            <file>file:/C:/wamp/www/akn/assets/css/style.css</file>
+            <file>file:/C:/wamp/www/akn/application/helpers/functions_helper.php</file>
+            <file>file:/C:/wamp/www/akn/application/controllers/main.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/footbox.php</file>
+            <file>file:/C:/wamp/www/akn/application/config/routes.php</file>
+            <file>file:/C:/wamp/www/akn/application/models/m_masterdata.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/restricted/contact.php</file>
+            <file>file:/C:/wamp/www/akn/assets/sched/styles/featured_slide.css</file>
+            <file>file:/C:/wamp/www/akn/application/views/main/form-pendaftaran.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/restricted/info-pmb.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/main/detail-publikasi.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/restricted/profile.php</file>
+            <file>file:/C:/wamp/www/akn/assets/sched/styles/navi.css</file>
+            <file>file:/C:/wamp/www/akn/application/controllers/api/restrictarea.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/public.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/restricted/prodi.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/footer.php</file>
+            <file>file:/C:/wamp/www/akn/assets/sched/styles/tables.css</file>
+            <file>file:/C:/wamp/www/akn/application/views/main/detail-publikasi-2.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/dashboard.php</file>
+            <file>file:/C:/wamp/www/akn/application/controllers/restrictarea.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/main/detail-info-pmb.php</file>
             <file>file:/C:/wamp/www/akn/assets/sched/styles/menu/style.css</file>
+            <file>file:/C:/wamp/www/akn/application/views/main/detail-profile.php</file>
+            <file>file:/C:/wamp/www/akn/application/controllers/user.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/restricted/news.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/main/detail-prodi.php</file>
+            <file>file:/C:/wamp/www/akn/application/views/main/detail-news.php</file>
+            <file>file:/C:/wamp/www/akn/assets/sched/styles/loginslider.css</file>
+            <file>file:/C:/wamp/www/akn/application/views/main/detail-kontak.php</file>
         </group>
     </open-files>
 </project-private>

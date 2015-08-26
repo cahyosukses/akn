@@ -456,4 +456,36 @@ class M_masterdata extends CI_Model {
         }
         return $result;
     }
+    
+    function get_list_info_pendaftaran($limit, $start, $search) {
+        //$limitation = null; 
+        $q = NULL;
+        $limitation =" limit $start , $limit";
+        
+        $sql = "select * from tb_info_pendaftaran where id is not NULL $q order by id desc";
+        $query = $this->db->query($sql.$limitation);
+        //echo $sql . $limitation;
+        $queryAll = $this->db->query($sql);
+        $data['data'] = $query->result();
+        $data['jumlah'] = $queryAll->num_rows();
+        return $data;
+    }
+    
+    function save_info_pendaftaran() {
+        $data_array = array(
+            'id' => post_safe('id'),
+            'judul' => post_safe('nama'),
+            'keterangan' => post_safe('isi_keterangan')
+        );
+        
+        if ($data_array['id'] === '') {
+            $this->db->insert('tb_info_pendaftaran', $data_array);
+            $result['act'] = 'add';
+        } else {
+            $this->db->where('id', $data_array['id']);
+            $this->db->update('tb_info_pendaftaran', $data_array);
+            $result['act'] = 'edit';
+        }
+        return $result;
+    }
 }

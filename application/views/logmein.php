@@ -68,7 +68,7 @@ www.amitjakhu.com
             dataType: 'json',
             success: function(data) {
                 if(data.status === 'login'){
-                    location.href='<?= base_url('user/index/') ?>';
+                    location.href='<?= base_url('user/') ?>';
                 } else {
                     dinamic_message('Peringatan','Username dan password harus diisikan secara benar !');
                 }            

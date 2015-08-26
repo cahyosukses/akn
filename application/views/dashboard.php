@@ -338,8 +338,13 @@
         </li>
         <li class=" "> <a href="javascript:;;"> <i class="fa fa-graduation-cap"></i> <span class="title">Kemahasiswaan</span> <span class="selected"></span> <span class="arrow "></span></a> 
             <ul class="sub-menu">
-                <li> <a onclick="load_menu('<?= base_url('restrictarea/pendaftaran') ?>'); return false;" href="<?= base_url('') ?>"> Data Pendaftaran </a> </li>
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/kegiatan') ?>'); return false;" href="<?= base_url('') ?>"> Kegiatan </a> </li>
+            </ul>
+        </li>
+        <li class=" "> <a href="javascript:;;"> <i class="fa fa-child"></i> <span class="title">Pengelolaan PMB</span> <span class="selected"></span> <span class="arrow "></span></a> 
+            <ul class="sub-menu">
+                <li> <a onclick="load_menu('<?= base_url('restrictarea/pendaftaran') ?>'); return false;" href="<?= base_url('') ?>"> Data Pendaftaran </a> </li>
+                <li> <a onclick="load_menu('<?= base_url('restrictarea/info_pmb') ?>'); return false;" href="<?= base_url('') ?>"> Informasi PMB </a> </li>
             </ul>
         </li>
         <li class=" "> <a href="javascript:;;"> <i class="fa fa-wrench"></i> <span class="title">Konfigurasi</span> <span class="selected"></span> <span class="arrow "></span></a> 

@@ -7,7 +7,7 @@
             selector: "textarea#isi",
             theme: "modern",
             plugins: [
-                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                "advlist autolink lists link image code charmap print preview hr anchor pagebreak",
                 "searchreplace wordcount visualblocks visualchars code fullscreen",
                 "insertdatetime media nonbreaking save table contextmenu directionality",
                 "emoticons template paste textcolor colorpicker textpattern imagetools"
@@ -18,6 +18,7 @@
             force_br_newlines : false,
             force_p_newlines : false,
             forced_root_block : '',
+            relative_urls: true,
             //plugins: "fullpage",
             valid_elements : '*[*]',
             height: 300,

@@ -17,6 +17,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <script type="text/javascript" src="<?= base_url('assets/sched/scripts/jquery.slidepanel.setup.js') ?>"></script>
 <!-- Homepage Only Scripts -->
 <script type="text/javascript" src="<?= base_url('assets/sched/scripts/jquery.cycle.min.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/jquery.nicescroll.js') ?>"></script>
 <script type="text/javascript">
 $(function() {
     $('#featured_slide').after('<div id="fsn"><ul id="fs_pagination">').cycle({
@@ -26,6 +27,18 @@ $(function() {
         pause: 1,
         pauseOnPagerHover: 0
     });
+    $("#scrollable").niceScroll({
+        touchbehavior:false,
+        cursorcolor:"#666",
+        cursoropacitymax:0.7,
+        cursorwidth:2,
+        cursorborder:"1px solid #2848BE",
+        cursorborderradius:"8px",
+        background:"#ccc",
+        autohidemode:true
+    }).cursor.css({
+        //'background-image':'url(<?= base_url('') ?>)'
+    }); // MAC like scrollbar
 });
 </script>
 <!-- End Homepage Only Scripts -->
@@ -79,17 +92,22 @@ $(function() {
         <br class="clear" />
       </div>
       <div class="column2">
-        <h2>About This Free CSS Template !</h2>
-        <img class="imgl" src="<?= base_url('assets/img/demo/imgl.gif') ?>" alt="" />
-        <p>This is a W3C standards compliant free website template from <a href="http://www.os-templates.com/">OS Templates</a>.</p>
-        <p>This template is distributed using a <a href="http://www.os-templates.com/template-terms">Website Template Licence</a>, which allows you to use and modify the template for both personal and commercial use when you keep the provided credit links in the footer. For more CSS templates visit <a href="http://www.os-templates.com/">Free Website Templates</a>.</p>
-        <p>Morbitincidunt maurisque eros molest nunc anteget sed vel lacus mus semper. Anterdumnullam interdum eros dui urna consequam ac nisl nullam ligula vestassa.</p>
-        <p>Condimentumfelis et amet tellent quisquet a leo lacus nec augue accumsan. Sagiftislaorem dolor ipsum at urna et pharetium malesuada nis consectus odio.</p>
+        <h2>Kegiatan Kemahasiswaan !</h2>
+        <?php foreach ($kemahasiswaan as $data) { ?>
+        <div style="display: block; border-bottom: 1px solid #f4f4f4; margin-top: 10px;">
+        <img class="imgl" src="<?= base_url('assets/img/kemahasiswaan/'.$data->gambar) ?>" alt="" width="125" height="125" />
+        <b><?= $data->judul ?></b><br/>
+        <small>Tanggal Upload: <?= datetimefmysql($data->tanggal, true) ?></small>
+        <p><?= substr(strip_tags($data->isi), 0, 350) ?></p>
+        </div>
+        <?php } ?>
       </div>
     </div>
-    <div class="fl_right">
-      <h2>Berita Terbaru</h2>
-      <ul>
+      <div class="fl_right">
+          <h2>Berita Terbaru</h2>
+      </div>
+    <div class="fl_right" id="scrollable" style="max-height: 900px; overflow-y: auto;">
+      <ul class="list-data">
           <?php foreach ($berita as $data) { ?>
             <li>
                 <div class="imgholder"><a href="#"><img src="<?= base_url('assets/img/berita/'.$data->gambar) ?>" alt="" /></a></div>
@@ -104,18 +122,9 @@ $(function() {
   </div>
 </div>
 <!-- ####################################################################################################### -->
-<div class="wrapper col4">
+<div class="wrapper col4" id="kontak">
   <div id="footer">
-    <div class="footbox">
-      <h2>Kontak Kami</h2>
-      <ul>
-        <li>Alamat: <?= $contact->alamat ?> <?= $contact->kode_pos ?></li>
-        <li>Telp: <?= $contact->telp ?></li>
-        <li>Fax: <?= $contact->fax ?></li>
-        <li>Email: <?= $contact->email ?></li>
-        <li class="last">Website: <?= $contact->website ?></li>
-      </ul>
-    </div>
+    <?= $this->load->view('footbox') ?>
     
 <!--    <div class="footbox last">
       <h2>Lacus interdum</h2>
@@ -132,12 +141,6 @@ $(function() {
   </div>
 </div>
 <!-- ####################################################################################################### -->
-<div class="wrapper col5">
-  <div id="copyright">
-    <p class="fl_left">Copyright &copy; 2014 - All Rights Reserved - <a href="#">Domain Name</a></p>
-    <p class="fl_right">Template by <a target="_blank" href="http://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>
-    <br class="clear" />
-  </div>
-</div>
+<?= $this->load->view('footer') ?>
 </body>
 </html>

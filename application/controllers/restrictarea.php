@@ -57,4 +57,9 @@ class Restrictarea extends CI_Controller {
         $this->load->view('restricted/changepass', $data);
     }
     
+    function info_pmb() {
+        $data['title'] = 'Ubah Password';
+        $this->load->view('restricted/info-pmb', $data);
+    }
+    
 }
