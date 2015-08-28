@@ -68,7 +68,7 @@ $(function() {
             <div class="floater">
               <h2><?= $data->judul ?></h2>
               <p><?= substr($data->isi, 0, 400) ?> ...</p>
-              <p class="readmore"><a href="#">Continue Reading &raquo;</a></p>
+              <p class="readmore"><a href="<?= base_url('main/detailslider/'.$data->id.'/'.  post_slug($data->judul)) ?>">Continue Reading &raquo;</a></p>
             </div>
           </div>
           <?php } ?>

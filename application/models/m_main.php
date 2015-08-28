@@ -2,8 +2,12 @@
 
 class M_main extends CI_Model {
     
-    function get_list_slider() {
-        $sql = "select * from tb_slider order by id";
+    function get_list_slider($id = NULL) {
+        $q = NULL;
+        if ($id !== NULL) {
+            $q.=" where id = '".$id."'";
+        }
+        $sql = "select * from tb_slider $q order by id";
         return $this->db->query($sql);
     }
     

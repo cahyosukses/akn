@@ -114,4 +114,11 @@ class Main extends CI_Controller {
         $data['contact'] = $this->m_main->get_data_contact()->row();
         $this->load->view('main/detail-kemahasiswaan', $data);
     }
+    
+    function detailslider($id) {
+        $data['title'] = 'Detail Slider';
+        $data['profile'] = $this->m_main->get_list_slider($id)->row();
+        $data['contact'] = $this->m_main->get_data_contact()->row();
+        $this->load->view('main/detail-slider', $data);
+    }
 }

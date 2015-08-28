@@ -65,7 +65,7 @@
                             '<td>'+v.prodi1+'</td>'+
                             '<td>'+v.prodi2+'</td>'+
                             '<td align="center" class=aksi>'+
-                                '<button type="button" class="btn btn-default btn-mini" onclick="print_pmb(\''+v.id+'\')"><i class="fa fa-print"></i></button> '+
+//                                '<button type="button" class="btn btn-default btn-mini" onclick="print_pmb(\''+v.id+'\')"><i class="fa fa-print"></i></button> '+
                                 '<button type="button" class="btn btn-default btn-mini" onclick="delete_pmb(\''+v.id+'\','+data.page+');"><i class="fa fa-trash-o"></i></button>'+
                             '</td>'+
                         '</tr>';
