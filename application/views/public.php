@@ -36,8 +36,6 @@ $(function() {
         cursorborderradius:"8px",
         background:"#ccc",
         autohidemode:true
-    }).cursor.css({
-        //'background-image':'url(<?= base_url('') ?>)'
     }); // MAC like scrollbar
 });
 </script>

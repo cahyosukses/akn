@@ -42,10 +42,15 @@
         </li>
         <li><a href="<?= base_url('main/kontakkami') ?>"><i class="fa fa-phone"></i> Kontak</a></li>
         <li class="last"><a href=""><i class="fa fa-child"></i> Info PMB</a>
+            <?php $pmb = $this->m_masterdata->get_data_config()->row(); ?>
             <ul>
                 <li><a href="<?= base_url('main/pengumuman') ?>">Pengumuman</a></li>
+                <?php if ($pmb->form_pmdk === 'Aktif') { ?>
                 <li><a href="<?= base_url('main/pendaftaran_pmdk') ?>">Formulir Pendaftaran PMDK</a></li>
+                <?php } ?>
+                <?php if ($pmb->form_sumb === 'Aktif') { ?>
                 <li><a href="<?= base_url('main/pendaftaran_sumb') ?>">Formulir Pendaftaran SUMB</a></li>
+                <?php } ?>
             </ul>
         </li>
     </ul>
