@@ -10,7 +10,7 @@ nav ul {
     padding: 0;
     width: 100%;
     position: relative;
-    z-index: 9999;
+    z-index: 100;
     -webkit-box-shadow: 10px 11px 21px -4px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 11px 21px -4px rgba(0,0,0,0.75);
     box-shadow: 10px 11px 21px -4px rgba(0,0,0,0.75);
@@ -88,7 +88,7 @@ nav li ul a:hover {
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 9999;
+    z-index: 1001;
     opacity: 0.9;
 }
 
@@ -123,4 +123,16 @@ nav li ul a:hover {
     font-weight: normal;
     font-size: 18px; 
     color: #FFFFFF;
+}
+
+.error {
+    color: red;
+    font-style: italic;
+    font-size: 11px;
+}
+.has-error {
+    color: red;
+}
+.form-pendaftaran {
+    background: none repeat scroll 0 0 #EEEEEE;
 }

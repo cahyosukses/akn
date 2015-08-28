@@ -81,11 +81,37 @@ class Main extends CI_Controller {
         $this->load->view('main/detail-info-pmb', $data);
     }
     
-    function pendaftaran() {
-        $data['title'] = 'Pendaftaran Mahasiswa Baru - '.$this->ist;
+    function pendaftaran_pmdk() {
+        $data['title'] = 'Pendaftaran Mahasiswa Baru Jalur <b>PMDK</b> - '.$this->ist;
         $data['contact'] = $this->m_main->get_data_contact()->row();
         $data['info'] = $this->m_main->get_data_info_pmb()->row();
         $data['agama'] = array('Islam','Kristen','Protestan','Hindu','Budha');
+        $data['tahun'] = $this->db->get('tb_ta_aktif')->row();
+        $data['jurusan'] = $this->m_main->get_list_prodi()->result();
         $this->load->view('main/form-pendaftaran', $data);
+    }
+    
+    function pendaftaran_sumb() {
+        $data['title'] = 'Pendaftaran Mahasiswa Baru Jalur <b>SUMB</b> - '.$this->ist;
+        $data['contact'] = $this->m_main->get_data_contact()->row();
+        $data['info'] = $this->m_main->get_data_info_pmb()->row();
+        $data['agama'] = array('Islam','Kristen','Protestan','Hindu','Budha');
+        $data['tahun'] = $this->db->get('tb_ta_aktif')->row();
+        $data['jurusan'] = $this->m_main->get_list_prodi()->result();
+        $this->load->view('main/form-pendaftaran-sumb', $data);
+    }
+    
+    function detailsambutan($id) {
+        $data['title'] = 'Sambutan - '.$this->ist;
+        $data['profile'] = $this->m_main->get_list_sambutan($id)->row();
+        $data['contact'] = $this->m_main->get_data_contact()->row();
+        $this->load->view('main/detail-sambutan', $data);
+    }
+    
+    function detailkemahasiswaan($id) {
+        $data['title'] = 'Detail Kemahasiswaan';
+        $data['profile'] = $this->m_main->get_data_kegiatan_kemahasiswaan($id)->row();
+        $data['contact'] = $this->m_main->get_data_contact()->row();
+        $this->load->view('main/detail-kemahasiswaan', $data);
     }
 }

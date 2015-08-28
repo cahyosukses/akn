@@ -1,7 +1,6 @@
 <script type="text/javascript">
     $(function() {
         $("#menu-hidden").hide();
-        var menu = $("#menu-hidden");
         $(window).scroll(function() {
             if ($(window).scrollTop() >= 100 ) {
                 $("#menu-hidden").fadeIn("slow");
@@ -45,7 +44,8 @@
         <li class="last"><a href=""><i class="fa fa-child"></i> Info PMB</a>
             <ul>
                 <li><a href="<?= base_url('main/pengumuman') ?>">Pengumuman</a></li>
-                <li><a href="<?= base_url('main/pendaftaran') ?>">Form Pendaftaran</a></li>
+                <li><a href="<?= base_url('main/pendaftaran_pmdk') ?>">Formulir Pendaftaran PMDK</a></li>
+                <li><a href="<?= base_url('main/pendaftaran_sumb') ?>">Formulir Pendaftaran SUMB</a></li>
             </ul>
         </li>
     </ul>
@@ -93,7 +93,8 @@
                   <li class="last"><a href=""><i class="fa fa-child"></i> Info PMB</a>
                       <ul>
                             <li><a href="<?= base_url('main/pengumuman') ?>">Pengumuman</a></li>
-                            <li><a href="<?= base_url('main/pendaftaran') ?>">Form Pendaftaran</a></li>
+                            <li><a href="<?= base_url('main/pendaftaran_pmdk') ?>">Formulir Pendaftaran PMDK</a></li>
+                            <li><a href="<?= base_url('main/pendaftaran_sumb') ?>">Formulir Pendaftaran SUMB</a></li>
                       </ul>
                   </li>
               </ul>

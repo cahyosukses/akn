@@ -6,10 +6,12 @@
             <file>file:/C:/wamp/www/akn/application/views/nav.php</file>
             <file>file:/C:/wamp/www/akn/application/views/logmein.php</file>
             <file>file:/C:/wamp/www/akn/application/models/m_main.php</file>
+            <file>file:/C:/wamp/www/akn/application/controllers/api/main.php</file>
             <file>file:/C:/wamp/www/akn/assets/sched/styles/layout.css</file>
             <file>file:/C:/wamp/www/akn/assets/css/style.css</file>
             <file>file:/C:/wamp/www/akn/application/helpers/functions_helper.php</file>
             <file>file:/C:/wamp/www/akn/application/controllers/main.php</file>
+            <file>file:/C:/wamp/www/akn/assets/js/library.js</file>
             <file>file:/C:/wamp/www/akn/application/views/footbox.php</file>
             <file>file:/C:/wamp/www/akn/application/config/routes.php</file>
             <file>file:/C:/wamp/www/akn/application/models/m_masterdata.php</file>
@@ -33,6 +35,7 @@
             <file>file:/C:/wamp/www/akn/application/views/main/detail-profile.php</file>
             <file>file:/C:/wamp/www/akn/application/controllers/user.php</file>
             <file>file:/C:/wamp/www/akn/application/views/restricted/news.php</file>
+            <file>file:/C:/wamp/www/akn/assets/css/datepicker3.css</file>
             <file>file:/C:/wamp/www/akn/application/views/main/detail-prodi.php</file>
             <file>file:/C:/wamp/www/akn/application/views/main/detail-news.php</file>
             <file>file:/C:/wamp/www/akn/assets/sched/styles/loginslider.css</file>

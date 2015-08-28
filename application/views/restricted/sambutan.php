@@ -1,39 +1,57 @@
 <title><?= $title ?></title>
+<script type="text/javascript" src="<?= base_url('assets/tinymce/tinymce.min.js') ?>"></script>
 <script type="text/javascript">
     $(function() {
-        get_list_pmb(1);
-        $('#search_pmb').click(function() {
+        
+        tinyMCE.init({
+            selector: "textarea#isi",
+            theme: "modern",
+            plugins: [
+                "advlist autolink lists link image code charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons template paste textcolor colorpicker textpattern imagetools"
+            ],
+            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            toolbar2: "print preview media | forecolor backcolor emoticons",
+            image_advtab: true,
+            force_br_newlines : false,
+            force_p_newlines : false,
+            forced_root_block : '',
+            relative_urls: true,
+            //plugins: "fullpage",
+            valid_elements : '*[*]',
+            height: 300,
+            setup: function(ed){
+                ed.on("init",
+                    function(ed) {
+                        tinyMCE.get('textarea#isi');
+                        tinyMCE.execCommand('mceRepaint');
+                    }
+                );
+            }
+        });
+        get_list_sambutan(1);
+        $('#add_sambutan').click(function() {
+            reset_form();
             $('#datamodal').modal('show');
-            $('#datamodal h4.modal-title').html('Cari Data PMB');
+            $('#datamodal h4.modal-title').html('Tambah sambutan');
+            tinyMCE.activeEditor.setContent('');
         });
 
-        $('#reload_pmb').click(function() {
+        $('#reload_sambutan').click(function() {
             reset_form();
-            get_list_pmb(1);
-        });
-        
-        $('#awal, #akhir').datepicker({
-            format: "dd/mm/yyyy"
-        }).on('changeDate', function(){
-            $(this).datepicker('hide');
-        });
-        
-        $('#export_button').click(function() {
-            window.location='<?= base_url('restrictarea/export_pendaftar') ?>/?'+$('#formsearch').serialize();
+            get_list_sambutan(1);
         });
     });
     
-    function print_pmb(id_daftar) {
-        
-    }
-    
-    function get_list_pmb(p, id) {
-        $('#datamodal').modal('hide');
+    function get_list_sambutan(p, id) {
+        $('#form-pencarian').modal('hide');
         var id = '';
         $.ajax({
             type : 'GET',
-            url: '<?= base_url("api/restrictarea/pmbs") ?>/page/'+p+'/id/'+id,
-            data: $('#formsearch').serialize(),
+            url: '<?= base_url("api/restrictarea/sambutans") ?>/page/'+p+'/id/'+id,
+            data: '',
             cache: false,
             dataType: 'json',
             beforeSend: function() {
@@ -58,15 +76,11 @@
                     };
                     str = '<tr class="'+highlight+'">'+
                             '<td align="center">'+((i+1) + ((data.page - 1) * data.limit))+'</td>'+
-                            '<td>'+datefmysql(v.tanggal_daftar)+'</td>'+
-                            '<td>'+v.no_pendaftaran+'</td>'+
-                            '<td>'+v.nama+'</td>'+
-                            '<td>'+v.asal_sekolah+'</td>'+
-                            '<td>'+v.prodi1+'</td>'+
-                            '<td>'+v.prodi2+'</td>'+
+                            '<td>'+datetimefmysql(v.tanggal)+'</td>'+
+                            '<td>'+v.judul+'</td>'+
                             '<td align="center" class=aksi>'+
-                                '<button type="button" class="btn btn-default btn-mini" onclick="print_pmb(\''+v.id+'\')"><i class="fa fa-print"></i></button> '+
-                                '<button type="button" class="btn btn-default btn-mini" onclick="delete_pmb(\''+v.id+'\','+data.page+');"><i class="fa fa-trash-o"></i></button>'+
+                                '<button type="button" class="btn btn-default btn-mini" onclick="edit_sambutan(\''+v.id+'\')"><i class="fa fa-pencil"></i></button> '+
+                                '<button type="button" class="btn btn-default btn-mini" onclick="delete_sambutan(\''+v.id+'\','+data.page+');"><i class="fa fa-trash-o"></i></button>'+
                             '</td>'+
                         '</tr>';
                     $('#load_data_table tbody').append(str);
@@ -88,30 +102,31 @@
         $('input[type=checkbox], input[type=radio]').removeAttr('checked');
     }
 
-    function edit_pmb(id) {
+    function edit_sambutan(id) {
         $('#oldpict').html('');
         $('#datamodal').modal('show');
-        $('#datamodal h4.modal-title').html('Edit pmb');
+        $('#datamodal h4.modal-title').html('Edit sambutan');
         $.ajax({
             type: 'GET',
-            url: '<?= base_url('api/restrictarea/pmbs') ?>/page/1/id/'+id,
+            url: '<?= base_url('api/restrictarea/sambutans') ?>/page/1/id/'+id,
             dataType: 'json',
             success: function(data) {
                 $('#id').val(data.data[0].id);
                 $('#judul').val(data.data[0].judul);
+                $('#nama').val(data.data[0].link);
                 tinyMCE.activeEditor.setContent(data.data[0].isi);
                 $('#gambar').val(data.data[0].gambar);
-                $('#oldpict').html('<img src="<?= base_url('assets/img/pmb') ?>/'+data.data[0].gambar+'" width="300px;" />')
+                $('#oldpict').html('<img src="<?= base_url('assets/img/profiles') ?>/'+data.data[0].gambar+'" width="300px;" />')
             }
         });
     }
         
     function paging(p) {
-        get_list_pmb(p);
+        get_list_sambutan(p);
     }
 
     function konfirmasi_save() {
-        $('#isi_pmb').val(tinyMCE.get('isi').getContent());
+        $('#isi_sambutan').val(tinyMCE.get('isi').getContent());
         bootbox.dialog({
             message: "Anda yakin akan menyimpan data ini?",
             title: "Konfirmasi Simpan",
@@ -127,14 +142,14 @@
                 label: '<i class="fa fa-save"></i>  Ya',
                 className: "btn-primary",
                 callback: function() {
-                    save_pmb();
+                    save_sambutan();
                 }
               }
             }
           });
       }
 
-    function save_pmb() {
+    function save_sambutan() {
         $('#formadd').ajaxSubmit({
             target: '#output',
             dataType: 'json',
@@ -149,22 +164,22 @@
                 $('input[type=text],input[type=file], select').val('');
                 if (msg.act === 'add') {
                     message_add_success();
-                    get_list_pmb(1);
+                    get_list_sambutan(1);
                 } else {
                     message_edit_success();
-                    get_list_pmb(page);
+                    get_list_sambutan(page);
                 }
             },
             error: function() {
                 $('#datamodal').modal('hide');
                 var page = $('.pagination .active a').html();
-                get_list_pmb(page);
+                get_list_sambutan(page);
                 hide_ajax_indicator();
             }
         });
     }
 
-    function delete_pmb(id, page) {
+    function delete_sambutan(id, page) {
         bootbox.dialog({
             message: "Anda yakin akan menghapus data ini?",
             title: "Konfirmasi Hapus",
@@ -182,17 +197,21 @@
                 callback: function() {
                     $.ajax({
                         type: 'DELETE',
-                        url: '<?= base_url('api/restrictarea/pmb') ?>/id/'+id,
+                        url: '<?= base_url('api/restrictarea/sambutan') ?>/id/'+id,
                         dataType: 'json',
                         success: function(data) {
                             message_delete_success();
-                            get_list_pmb(page);
+                            get_list_sambutan(page);
                         }
                     });
                 }
               }
             }
         });
+    }
+
+    function paging(page, tab, search) {
+        get_list_sambutan(page, search);
     }
 
 </script>
@@ -207,11 +226,11 @@
         <div class="col-md-12">
           <div class="grid simple ">
             <div class="grid-title">
-              <h4>Daftar List Penerimaan Mahasiswa Baru</h4>
+              <h4>Daftar List sambutan</h4>
                 <div class="tools"> 
-                    <button id="search_pmb" class="btn btn-info btn-mini"><i class="fa fa-search"></i> Cari</button>
-                    <button id="export_button" class="btn btn-mini"><i class="fa fa-file-excel-o"></i> Export Excel</button>
-                    <button id="reload_pmb" class="btn btn-mini"><i class="fa fa-refresh"></i> Reload</button>
+                    <!--<button id="add_sambutan" class="btn btn-info btn-mini"><i class="fa fa-plus-circle"></i> Tambah</button>-->
+                    <!--<button id="cari_button" class="btn btn-mini"><i class="fa fa-search"></i> Cari</button>-->
+                    <button id="reload_sambutan" class="btn btn-mini"><i class="fa fa-refresh"></i> Reload</button>
                 </div>
             </div>
             <div class="grid-body">
@@ -220,13 +239,9 @@
                     <table class="table table-bordered table-stripped table-hover" id="load_data_table">
                         <thead>
                         <tr>
-                          <th width="3%">No</th>
-                          <th width="7%" class="left">Tanggal</th>
-                          <th width="7%" class="left">No. Daftar</th>
-                          <th width="15%" class="left">Nama</th>
-                          <th width="18%" class="left">Asal Sekolah</th>
-                          <th width="20%" class="left">Pilihan 1</th>
-                          <th width="20%" class="left">Pilihan 2</th>
+                          <th width="5%">No</th>
+                          <th width="15%" class="left">Tanggal</th>
+                          <th width="70%" class="left">Judul sambutan</th>
                           <th width="10%"></th>
                         </tr>
                         </thead>
@@ -241,58 +256,44 @@
           </div>
         </div>
         <div id="datamodal" class="modal fade">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="width: 800px">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                <form id="formsearch">
+                <form action="<?= base_url('api/restrictarea/sambutan') ?>" id="formadd" method="post" role="form" enctype="multipart/form-data">
+                <input type="hidden" name="id" id="id" />
+                <input type="hidden" name="gambar" id="gambar" />
+                <input type="hidden" name="isi_sambutan" id="isi_sambutan" />
                 <div class="form-group">
-                    <label for="recipient-name" class="control-label">Tanggal Daftar:</label>
-                    <input type="text" name="awal"  class="form-control" id="awal" style="width: 145px; float: left; margin-right: 5px;">
-                    <input type="text" name="akhir"  class="form-control" id="akhir" style="width: 145px;">
+                    <label for="recipient-name" class="control-label">Judul:</label>
+                    <input type="text" name="judul"  class="form-control" id="judul">
                 </div>
                 <div class="form-group">
-                    <label for="recipient-name" class="control-label">Tahun Ajaran:</label>
-                    <select name="ta" id="ta" class="form-control">
-                        <?php foreach ($tahun_ajaran as $data) { ?>
-                        <option value="<?= $data->ta ?>"><?= $data->ta ?> / <?= $data->ta+1 ?></option>
-                        <?php } ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="control-label">No. Pendaftaran:</label>
-                    <input type="text" name="no_daftar"  class="form-control" id="no_daftar">
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="control-label">Nama Calon Mahasiswa:</label>
+                    <label for="recipient-name" class="control-label">Nama:</label>
                     <input type="text" name="nama"  class="form-control" id="nama">
                 </div>
                 <div class="form-group">
-                    <label for="recipient-name" class="control-label">Prodi Pilihan 1:</label>
-                    <select id="pilihan1" name="pilihan1" class="form-control">
-                        <option value="">Pilih ...</option>
-                        <?php foreach ($jurusan as $key => $data) { ?>
-                        <option value="<?= $data->id ?>"><?= $data->link ?></option>
-                        <?php } ?>
-                    </select>
+                    <label for="recipient-name" class="control-label">Isi sambutan:</label>
+                    <textarea name="isi" id="isi" class="isi"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="recipient-name" class="control-label">Prodi Pilihan 2:</label>
-                    <select id="pilihan2" name="pilihan2" class="form-control">
-                        <option value="">Pilih ...</option>
-                        <?php foreach ($jurusan as $key => $data) { ?>
-                        <option value="<?= $data->id ?>"><?= $data->link ?></option>
-                        <?php } ?>
-                    </select>
+                    <label for="recipient-name" class="control-label">Gambar:</label>
+                    <input type="file" name="mFile"  id="mFile" />
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="control-label"></label>
+                    <div id="oldpict">
+
+                    </div>
                 </div>
             </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-refresh"></i> Batal</button>
-              <button type="button" class="btn btn-primary" onclick="get_list_pmb(1);"><i class="fa fa-search"></i> Cari Data</button>
+              <button type="button" class="btn btn-primary" onclick="konfirmasi_save();"><i class="fa fa-save"></i> Simpan</button>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

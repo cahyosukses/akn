@@ -272,4 +272,80 @@ class Restrictarea extends REST_Controller {
         die(json_encode($data));
     }
     
+    /*DATA PMB*/
+    function pmbs_get() {
+        if (!$this->get('page')) {
+            $this->response(NULL, 400);
+        }
+        
+        $start = ($this->get('page') - 1) * $this->limit;
+        
+        $search= array(
+            'awal' => date2mysql(get_safe('awal')),
+            'akhir' => date2mysql(get_safe('akhir')),
+            'nama' => get_safe('nama'),
+            'no_daftar' => get_safe('no_daftar'),
+            'pilihan1' => get_safe('pilihan1'),
+            'pilihan2' => get_safe('pilihan2'),
+            'ta' => get_safe('ta')
+        );
+        
+        $data = $this->m_masterdata->get_list_pmb($this->limit, $start, $search);
+        $data['page'] = (int)$this->get('page');
+        $data['limit'] = $this->limit;
+        
+        if($data){
+            $this->response($data, 200); // 200 being the HTTP response code
+        }else{
+            $this->response(array('error' => 'Data tidak ditemukan'), 404);
+        }
+    }
+    
+    function pmb_post() {
+        $data = $this->m_masterdata->save_pmb();
+        $this->response($data, 200);
+    }
+    
+    function pmb_delete() {
+        $this->db->delete('tb_pendaftaran', array('id' => $this->get('id')));
+    }
+    
+    /*SAMBUTAN*/
+    function sambutans_get() {
+        if (!$this->get('page')) {
+            $this->response(NULL, 400);
+        }
+        
+        $start = ($this->get('page') - 1) * $this->limit;
+        
+        $search= array(
+            'id' => $this->get('id')
+        );
+        
+        $data = $this->m_masterdata->get_list_sambutans($this->limit, $start, $search);
+        $data['page'] = (int)$this->get('page');
+        $data['limit'] = $this->limit;
+        
+        if($data){
+            $this->response($data, 200); // 200 being the HTTP response code
+        }else{
+            $this->response(array('error' => 'Data tidak ditemukan'), 404);
+        }
+    }
+    
+    function sambutan_post() {
+        $data = $this->m_masterdata->save_sambutan();
+        $this->response($data, 200);
+    }
+    
+    function sambutan_delete() {
+        $data = $this->db->query("select gambar from tb_sambutan where id = '".$this->get('id')."'")->row();
+        @unlink('assets/img/profiles/'.$data->gambar);
+        $this->db->delete('tb_sambutan', array('id' => $this->get('id')));
+    }
+    
+    function save_config_post() {
+        $data = $this->m_masterdata->save_config();
+        $this->response($data, 200);
+    }
 }

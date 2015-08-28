@@ -1,30 +1,17 @@
 <title><?= $title ?></title>
 <script type="text/javascript">
     
-    function ubah_password() {
-        if ($('#passlama').val() === '') {
-            dc_validation('#passlama','Password lama tidak boleh kosong !'); return false;
-        }
-        if ($('#passbaru').val() === '') {
-            dc_validation('#passbaru','Password baru tidak boleh kosong !'); return false;
-        }
-        if ($('#ulangipass').val() === '') {
-            dc_validation('#ulangipass','Password retype tidak boleh kosong !'); return false;
-        }
-        if ($('#passbaru').val() !== $('#ulangipass').val()) {
-            dc_validation('#ulangipass','Password baru harus sama dengan password konfirmasi !'); return false;
-        }
+    function save_config() {
         $.ajax({
             type: 'POST',
-            url: '<?= base_url('api/restrictarea/change_password') ?>',
+            url: '<?= base_url('api/restrictarea/save_config') ?>',
             data: $('#chpass').serialize(),
             dataType: 'json',
             success: function(data) {
-                if (data.status === false) {
+                if (data === false) {
                     message_edit_failed();
                 } else {
                     message_edit_success();
-                    reset_form();
                 }
             }
         });
@@ -58,27 +45,33 @@
                     <div class="col-md-8 col-sm-8 col-xs-8">
                         <form id="chpass">
                         <div class="form-group">
-                            <label class="form-label">Password Lama:</label>    
+                            <label class="form-label">Tahun Ajaran:</label>    
                             <div class="controls">
-                                <input type="password" name="passlama" id="passlama" class="form-control" value="" />
+                                <input type="text" name="tahun" id="tahun" onkeyup="Angka(this);" maxlength="4" class="form-control" value="<?= $config->tahun ?>" />
                             </div>
                         </div>
                         <div class="form-group">
-                        <label class="form-label">Password Baru:</label>
+                        <label class="form-label">Aktifasi Menu Pendaftaran PMB PMDK:</label>
                             <div class="controls">
-                                <input type="password" name="passbaru" id="passbaru" class="form-control" value="" />
+                                <select name="aktif_pmdk" id="aktif_pmdk" class="form-control">
+                                    <option value="Aktif" <?= ($config->form_pmdk === 'Aktif')?'selected':'' ?>>Aktif</option>
+                                    <option value="Tidak" <?= ($config->form_pmdk === 'Tidak')?'selected':'' ?>>Tidak</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
-                        <label class="form-label">Ulangi Password:</label>
+                        <label class="form-label">Aktifasi Menu Pendaftaran PMB SUMB:</label>
                             <div class="controls">
-                                <input type="password" name="ulangipass" id="ulangipass" class="form-control" value="" />
+                                <select name="aktif_sumb" id="aktif_sumb" class="form-control">
+                                    <option value="Aktif"<?= ($config->form_sumb === 'Aktif')?'selected':'' ?>>Aktif</option>
+                                    <option value="Tidak"<?= ($config->form_sumb === 'Tidak')?'selected':'' ?>>Tidak</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                         <label class="form-label"></label>
                             <div class="controls">
-                                <button class="btn btn-info btn-cons" onclick="ubah_password(); return false;"><i class="fa fa-paste"></i> Ubah Password</button>
+                                <button class="btn btn-info btn-cons" onclick="save_config(); return false;"><i class="fa fa-paste"></i> Simpan Konfigurasi</button>
                             </div>
                         </div>
                         </form>

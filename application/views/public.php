@@ -27,7 +27,7 @@ $(function() {
         pause: 1,
         pauseOnPagerHover: 0
     });
-    $("#scrollable").niceScroll({
+    $(".scrollable").niceScroll({
         touchbehavior:false,
         cursorcolor:"#666",
         cursoropacitymax:0.7,
@@ -85,18 +85,18 @@ $(function() {
             <h2><?= $data->judul ?></h2>
             <div class="imgholder"><img src="<?= base_url('assets/img/profiles/'.$data->gambar) ?>" alt="" width="240" height="130" /><small>Foto: <i><?= $data->link ?></i></small></div>
             <p><?= substr($data->isi, 0, 200) ?></p>
-            <p class="readmore"><a href="#">Continue Reading &raquo;</a></p>
+            <p class="readmore"><a href="<?= base_url('main/detailsambutan/'.$data->id.'/'.  post_slug($data->judul)) ?>">Continue Reading &raquo;</a></p>
           </li>
             <?php } ?>
         </ul>
         <br class="clear" />
       </div>
-      <div class="column2">
+      <div class="column2 scrollable" style="max-height: 900px; overflow-y: auto;">
         <h2>Kegiatan Kemahasiswaan !</h2>
         <?php foreach ($kemahasiswaan as $data) { ?>
         <div style="display: block; border-bottom: 1px solid #f4f4f4; margin-top: 10px;">
         <img class="imgl" src="<?= base_url('assets/img/kemahasiswaan/'.$data->gambar) ?>" alt="" width="125" height="125" />
-        <b><?= $data->judul ?></b><br/>
+        <b><a href="<?= base_url('main/detailkemahasiswaan/'.$data->id.'/'.  post_slug($data->judul)) ?>"><?= $data->judul ?></a></b><br/>
         <small>Tanggal Upload: <?= datetimefmysql($data->tanggal, true) ?></small>
         <p><?= substr(strip_tags($data->isi), 0, 350) ?></p>
         </div>
@@ -106,7 +106,7 @@ $(function() {
       <div class="fl_right">
           <h2>Berita Terbaru</h2>
       </div>
-    <div class="fl_right" id="scrollable" style="max-height: 900px; overflow-y: auto;">
+    <div class="fl_right scrollable"  style="max-height: 900px; overflow-y: auto;">
       <ul class="list-data">
           <?php foreach ($berita as $data) { ?>
             <li>

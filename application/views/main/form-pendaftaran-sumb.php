@@ -75,7 +75,7 @@ Licence URI: http://www.os-templates.com/template-terms
             title: "Informasi",
             buttons: {
               ya: {
-                label: '<i class="fa fa-sign-in"></i>  Oke',
+                label: '<i class="fa fa-thumbs-up"></i>  Oke',
                 className: "btn-primary",
                 callback: function() {
 
@@ -167,18 +167,6 @@ Licence URI: http://www.os-templates.com/template-terms
         if ($('#pilihan1').val() === '') {
             dc_validation('#pilihan1','Pilihan program studi harus diisi !'); return false;
         }
-        for (i = 1; i <= 5; i++) {
-            if ($('#ratarapot'+i).val() === '') {
-                dc_validation('#alert_prestasi','Daftar prestasi akademik harus diisi dengan lengkap !'); return false;
-            }
-            if ($('#rangking'+i).val() === '') {
-                dc_validation('#alert_prestasi','Daftar prestasi akademik harus diisi dengan lengkap !'); return false;
-            }
-            if ($('#jml_mapel'+i).val() === '') {
-                dc_validation('#alert_prestasi','Daftar prestasi akademik harus diisi dengan lengkap !'); return false;
-            }
-        }
-        
         if ($('#biayai').val() === 'Orang Tua') {
             $('#nama_wali, #hubungan_wali, #penghasilan_wali, #alamat_wali').val('');
         }
@@ -208,13 +196,13 @@ Licence URI: http://www.os-templates.com/template-terms
     function save_pendaftaran() {
         $.ajax({
             type: 'POST',
-            url: '<?= base_url('api/main/save_pendaftaran_pmdk') ?>',
+            url: '<?= base_url('api/main/save_pendaftaran_sumb') ?>',
             data: $('#form-pendaftaran').serialize(),
             success: function(data) {
                 if (data.status === false) {
                     informasi('Pendaftaran gagal di lakukan mohon cek kembali data yang anda masukkan !');
                 } else {
-                    informasi('<b>Pendaftaran berhasil di simpan</b>!, silahkan melengkapi berkas pendaftaran ke panitia pendaftaran sebagai validasi !');
+                    informasi('<b>Pendaftaran berhasil di simpan</b>!, silahkan melengkapi berkas pendaftaran ke panitia pendaftaran sebagai validasi !')
                     reset_form();
                 }
             }
@@ -368,25 +356,6 @@ Licence URI: http://www.os-templates.com/template-terms
                             </select>
                         </td></tr>
                     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                    <tr><td colspan="2"><B>DAFTAR PRESTASI AKADEMIK</B> <span id="alert_prestasi"></span></td></tr>
-                    <?php for($i = 1; $i <= 5; $i++) { ?>
-                    <tr><td>SEMESTER <?= $i ?>:</td>
-                        <td>
-                            <input onkeyup="Angka(this);" maxlength="3" type="text" id="ratarapot<?= $i ?>" placeholder="Rata-rata Raport ..." name="ratarapot[]" class="form-control" size="40" style="width: 32%; float: left; margin-right: 5px;" /> 
-                            <input onkeyup="Angka(this);" maxlength="3" type="text" id="rangking<?= $i ?>" placeholder="Rangking ..." name="rangking[]" class="form-control" size="40" style="width: 32%; float: left; margin-right: 5px;" />
-                            <input onkeyup="Angka(this);" maxlength="3" type="text" id="jml_mapel<?= $i ?>" placeholder="Jumlah Mata Pelajaran ..." name="jml_mapel[]" class="form-control" size="40" style="width: 32%; float: left; margin-right: 5px;" />
-                        </td>
-                    </tr>
-                    <?php } ?>
-                    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                    <tr><td colspan="2"><B>DAFTAR PRESTASI NON AKADEMIK</B></td></tr>
-                    <?php for($i = 1; $i <= 2; $i++) { ?>
-                    <tr><td align="right"> <?= $i ?>. &nbsp;</td>
-                        <td>
-                            <input type="text" id="nonakademik<?= $i ?>" name="nonakademik[]" class="form-control" size="40" />
-                        </td>
-                    </tr>
-                    <?php } ?>
                     <tr><td></td><td>
                             <button  onclick="konfirmasi_simpan(); return false;" class="btn btn-primary btn-xlarge" ><i class="fa fa-save" style="font-size: 12px;"></i> Simpan Pendaftaran</button>
                             <button class="btn" onclick="reset_form(); return false;"><i class="fa fa-refresh"></i> Reset Data</button>

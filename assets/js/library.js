@@ -325,7 +325,7 @@ function Angka(obj) {
 
 function FormNum(obj) {
         var a = obj.value;
-        /*b = a.replace(/[^\d]/g,'');
+        b = a.replace(/[^\d]/g,'');
         c = '';
         lengthchar = b.length;
         j = 0;
@@ -336,8 +336,7 @@ function FormNum(obj) {
                 } else {
                         c = b.substr(i-1,1) + c;
                 }
-        }*/
-        var c = money_format(currencyToNumber(a));
+        }
         obj.value = c;
 }
 
@@ -629,12 +628,12 @@ function my_ajax(url,element){
 
 function dc_validation(element, pesan){
     $(element).next().remove();
-    $(element).after('<div class="error" style="font-weight: normal;">'+pesan+'</div>').closest('.form-group').removeClass('has-success').addClass('has-error');
+    $(element).after('<div class="error">'+pesan+'</div>').closest('table td').removeClass('has-success').addClass('has-error');
 }
 
 function dc_validation_remove(element){
-    $(element).next().remove();
-    $(element).closest('.form-group').removeClass('has-error');
+    $('.error').remove();
+    $(element).closest('table td').removeClass('has-error');
 }
 
 function get_date_app(){
