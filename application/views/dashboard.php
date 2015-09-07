@@ -328,6 +328,7 @@
         <li class=" "> <a href="javascript:;;"> <i class="fa fa-windows"></i> <span class="title">Konten Website</span> <span class="selected"></span> <span class="arrow "></span></a> 
             <ul class="sub-menu">
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/news') ?>'); return false;" href="<?= base_url('') ?>"> Berita </a> </li>
+                <li> <a onclick="load_menu('<?= base_url('restrictarea/slider') ?>'); return false;" href="<?= base_url('') ?>"> Slider </a> </li>
                 <!--<li> <a onclick="load_menu('<?= base_url('restrictarea/images') ?>'); return false;" href="<?= base_url('') ?>"> Upload Image </a> </li>-->
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/profile') ?>'); return false;" href="<?= base_url('') ?>"> Profil Universitas </a> </li>
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/prodi') ?>'); return false;" href="<?= base_url('') ?>"> Program Studi </a> </li>

@@ -12,6 +12,11 @@ class Restrictarea extends CI_Controller {
         $this->load->view('restricted/news', $data);
     }
     
+    function slider() {
+        $data['title'] = 'Slider';
+        $this->load->view('restricted/slider', $data);
+    }
+    
     function images() {
         $data['title'] = 'Gambar Pendukung Konten Web';
         $this->load->view('restricted/images', $data);

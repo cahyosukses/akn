@@ -31,26 +31,26 @@
                 );
             }
         });
-        get_list_berita(1);
-        $('#add_berita').click(function() {
+        get_list_slider(1);
+        $('#add_slider').click(function() {
             reset_form();
             $('#datamodal').modal('show');
-            $('#datamodal h4.modal-title').html('Tambah Berita');
+            $('#datamodal h4.modal-title').html('Tambah slider');
             tinyMCE.activeEditor.setContent('');
         });
 
-        $('#reload_berita').click(function() {
+        $('#reload_slider').click(function() {
             reset_form();
-            get_list_berita(1);
+            get_list_slider(1);
         });
     });
     
-    function get_list_berita(p, id) {
+    function get_list_slider(p, id) {
         $('#form-pencarian').modal('hide');
         var id = '';
         $.ajax({
             type : 'GET',
-            url: '<?= base_url("api/restrictarea/beritas") ?>/page/'+p+'/id/'+id,
+            url: '<?= base_url("api/restrictarea/sliders") ?>/page/'+p+'/id/'+id,
             data: '',
             cache: false,
             dataType: 'json',
@@ -79,8 +79,8 @@
                             '<td>'+datetimefmysql(v.tanggal)+'</td>'+
                             '<td>'+v.judul+'</td>'+
                             '<td align="center" class=aksi>'+
-                                '<button type="button" class="btn btn-default btn-mini" onclick="edit_berita(\''+v.id+'\')"><i class="fa fa-pencil"></i></button> '+
-                                '<button type="button" class="btn btn-default btn-mini" onclick="delete_berita(\''+v.id+'\','+data.page+');"><i class="fa fa-trash-o"></i></button>'+
+                                '<button type="button" class="btn btn-default btn-mini" onclick="edit_slider(\''+v.id+'\')"><i class="fa fa-pencil"></i></button> '+
+                                '<button type="button" class="btn btn-default btn-mini" onclick="delete_slider(\''+v.id+'\','+data.page+');"><i class="fa fa-trash-o"></i></button>'+
                             '</td>'+
                         '</tr>';
                     $('#load_data_table tbody').append(str);
@@ -102,63 +102,30 @@
         $('input[type=checkbox], input[type=radio]').removeAttr('checked');
     }
 
-    function edit_berita(id) {
+    function edit_slider(id) {
         $('#oldpict').html('');
         $('#datamodal').modal('show');
-        $('#datamodal h4.modal-title').html('Edit Berita');
+        $('#datamodal h4.modal-title').html('Edit slider');
         $.ajax({
             type: 'GET',
-            url: '<?= base_url('api/restrictarea/beritas') ?>/page/1/id/'+id,
+            url: '<?= base_url('api/restrictarea/sliders') ?>/page/1/id/'+id,
             dataType: 'json',
             success: function(data) {
                 $('#id').val(data.data[0].id);
                 $('#judul').val(data.data[0].judul);
                 tinyMCE.activeEditor.setContent(data.data[0].isi);
                 $('#gambar').val(data.data[0].gambar);
-                $('#oldpict').html('<img src="<?= base_url('assets/img/berita') ?>/'+data.data[0].gambar+'" width="300px;" />');
-                if (data.data[0].attachment !== '') {
-                    $('#oldattachment').html('<a target="blank" href="<?= base_url('assets/img/berita') ?>/'+data.data[0].attachment+'" >Download File </a> <i title="Klik untuk menghapus file" onclick="removeFile('+data.data[0].id+');" class="fa fa-times-circle"></i>');
-                }
-            }
-        });
-    }
-    
-    function removeFile(id) {
-        bootbox.dialog({
-            message: "Anda yakin akan menghapus file ini?",
-            title: "Konfirmasi Simpan",
-            buttons: {
-              batal: {
-                label: '<i class="fa fa-times-circle"></i> Tidak',
-                className: "btn-default",
-                callback: function() {
-
-                }
-              },
-              ya: {
-                label: '<i class="fa fa-trash"></i>  Ya',
-                className: "btn-primary",
-                callback: function() {
-                    $.ajax({
-                        type: 'DELETE',
-                        url: '<?= base_url('api/restrictarea/berita_file') ?>/id/'+id,
-                        success: function(data) {
-                            message_delete_success();
-                            $('#oldattachment').empty();
-                        }
-                    });
-                }
-              }
+                $('#oldpict').html('<img src="<?= base_url('assets/img/slider') ?>/'+data.data[0].gambar+'" width="300px;" />')
             }
         });
     }
         
     function paging(p) {
-        get_list_berita(p);
+        get_list_slider(p);
     }
 
     function konfirmasi_save() {
-        $('#isi_berita').val(tinyMCE.get('isi').getContent());
+        $('#isi_slider').val(tinyMCE.get('isi').getContent());
         bootbox.dialog({
             message: "Anda yakin akan menyimpan data ini?",
             title: "Konfirmasi Simpan",
@@ -174,14 +141,14 @@
                 label: '<i class="fa fa-save"></i>  Ya',
                 className: "btn-primary",
                 callback: function() {
-                    save_berita();
+                    save_slider();
                 }
               }
             }
           });
       }
 
-    function save_berita() {
+    function save_slider() {
         $('#formadd').ajaxSubmit({
             target: '#output',
             dataType: 'json',
@@ -196,22 +163,22 @@
                 $('input[type=text],input[type=file], select').val('');
                 if (msg.act === 'add') {
                     message_add_success();
-                    get_list_berita(1);
+                    get_list_slider(1);
                 } else {
                     message_edit_success();
-                    get_list_berita(page);
+                    get_list_slider(page);
                 }
             },
             error: function() {
                 $('#datamodal').modal('hide');
                 var page = $('.pagination .active a').html();
-                get_list_berita(page);
+                get_list_slider(page);
                 hide_ajax_indicator();
             }
         });
     }
 
-    function delete_berita(id, page) {
+    function delete_slider(id, page) {
         bootbox.dialog({
             message: "Anda yakin akan menghapus data ini?",
             title: "Konfirmasi Hapus",
@@ -229,11 +196,11 @@
                 callback: function() {
                     $.ajax({
                         type: 'DELETE',
-                        url: '<?= base_url('api/restrictarea/berita') ?>/id/'+id,
+                        url: '<?= base_url('api/restrictarea/slider') ?>/id/'+id,
                         dataType: 'json',
                         success: function(data) {
                             message_delete_success();
-                            get_list_berita(page);
+                            get_list_slider(page);
                         }
                     });
                 }
@@ -243,7 +210,7 @@
     }
 
     function paging(page, tab, search) {
-        get_list_berita(page, search);
+        get_list_slider(page, search);
     }
 
 </script>
@@ -258,11 +225,11 @@
         <div class="col-md-12">
           <div class="grid simple ">
             <div class="grid-title">
-              <h4>Daftar List Berita</h4>
+              <h4>Daftar List slider</h4>
                 <div class="tools"> 
-                    <button id="add_berita" class="btn btn-info btn-mini"><i class="fa fa-plus-circle"></i> Tambah</button>
+                    <button id="add_slider" class="btn btn-info btn-mini"><i class="fa fa-plus-circle"></i> Tambah</button>
                     <!--<button id="cari_button" class="btn btn-mini"><i class="fa fa-search"></i> Cari</button>-->
-                    <button id="reload_berita" class="btn btn-mini"><i class="fa fa-refresh"></i> Reload</button>
+                    <button id="reload_slider" class="btn btn-mini"><i class="fa fa-refresh"></i> Reload</button>
                 </div>
             </div>
             <div class="grid-body">
@@ -273,7 +240,7 @@
                         <tr>
                           <th width="5%">No</th>
                           <th width="15%" class="left">Tanggal</th>
-                          <th width="70%" class="left">Judul Berita</th>
+                          <th width="70%" class="left">Judul slider</th>
                           <th width="10%"></th>
                         </tr>
                         </thead>
@@ -295,37 +262,20 @@
               <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                <form action="<?= base_url('api/restrictarea/berita') ?>" id="formadd" method="post" role="form" enctype="multipart/form-data">
+                <form action="<?= base_url('api/restrictarea/slider') ?>" id="formadd" method="post" role="form" enctype="multipart/form-data">
                 <input type="hidden" name="id" id="id" />
                 <input type="hidden" name="gambar" id="gambar" />
-                <input type="hidden" name="attachment" id="attachment" />
-                <input type="hidden" name="isi_berita" id="isi_berita" />
+                <input type="hidden" name="isi_slider" id="isi_slider" />
                 <div class="form-group">
                     <label for="recipient-name" class="control-label">Judul:</label>
                     <input type="text" name="judul"  class="form-control" id="judul">
                 </div>
                 <div class="form-group">
-                    <label for="recipient-name" class="control-label">Isi Berita:</label>
+                    <label for="recipient-name" class="control-label">Isi slider:</label>
                     <textarea name="isi" id="isi" class="isi"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="recipient-name" class="control-label">File Attachment:</label>
-                    <label for="mFileAtt" class="custom-file-upload">
-                        <i class="fa fa-cloud-upload"></i> Pdf File Attachment
-                    </label>
-                    <input type="file" name="mFileAtt"  id="mFileAtt" />
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="control-label"></label>
-                    <div id="oldattachment">
-
-                    </div>
-                </div>
-                <div class="form-group">
                     <label for="recipient-name" class="control-label">Gambar:</label>
-                    <label for="mFileAtt" class="custom-file-upload">
-                        <i class="fa fa-cloud-upload"></i> Image File
-                    </label>
                     <input type="file" name="mFile"  id="mFile" />
                 </div>
                 <div class="form-group">

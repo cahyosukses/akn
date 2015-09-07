@@ -48,6 +48,47 @@ class Restrictarea extends REST_Controller {
         $this->db->delete('tb_berita', array('id' => $this->get('id')));
     }
     
+    function berita_file_delete() {
+        $data = $this->db->query("select attachment from tb_berita where id = '".$this->get('id')."'")->row();
+        @unlink('assets/img/berita/'.$data->attachment);
+        $this->db->where('id', $this->get('id'));
+        $this->db->update('tb_berita', array('attachment' => ''));
+    }
+    
+    /*SLIDER*/
+    function sliders_get() {
+        if (!$this->get('page')) {
+            $this->response(NULL, 400);
+        }
+        
+        $start = ($this->get('page') - 1) * $this->limit;
+        
+        $search= array(
+            'id' => $this->get('id')
+        );
+        
+        $data = $this->m_masterdata->get_list_slider($this->limit, $start, $search);
+        $data['page'] = (int)$this->get('page');
+        $data['limit'] = $this->limit;
+        
+        if($data){
+            $this->response($data, 200); // 200 being the HTTP response code
+        }else{
+            $this->response(array('error' => 'Data tidak ditemukan'), 404);
+        }
+    }
+    
+    function slider_post() {
+        $data = $this->m_masterdata->save_slider();
+        $this->response($data, 200);
+    }
+    
+    function slider_delete() {
+        $data = $this->db->query("select gambar from tb_slider where id = '".$this->get('id')."'")->row();
+        @unlink('assets/img/slider/'.$data->gambar);
+        $this->db->delete('tb_slider', array('id' => $this->get('id')));
+    }
+    
     /*PROFILE*/
     function profiles_get() {
         if (!$this->get('page')) {

@@ -75,6 +75,11 @@ Licence URI: http://www.os-templates.com/template-terms
       <h1><?= $berita->judul ?></h1>
       <img class="imgl" src="<?= base_url('assets/img/berita/'.$berita->gambar) ?>" width="400" align="left" />
       <?= $berita->isi ?>
+      <?php if ($berita->attachment !== '') { ?>
+      <p>
+      <a target="blank" href="<?= base_url('assets/img/berita/'.$berita->attachment) ?>">Download File</a>
+      </p>
+      <?php } ?>
       
       <div id="fb-root"></div>
         <script>(function(d, s, id) {
