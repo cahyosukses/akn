@@ -25,7 +25,7 @@ class M_main extends CI_Model {
         if ($id !== NULL) {
             $q.="and id = '".$id."'";
         }
-        $sql = "select * from tb_prodi where id is not NULL $q order BY urutan";
+        $sql = "select * from tb_prodi where aktif = 'Ya' $q order BY urutan";
         return $this->db->query($sql);
     }
     
@@ -48,7 +48,7 @@ class M_main extends CI_Model {
         if ($id !== NULL) {
             $q.="and id = '".$id."'";
         }
-        $sql = "select * from tb_profile where id is not NULL $q order by urutan";
+        $sql = "select * from tb_profile where aktif = 'Ya' $q order by urutan";
         return $this->db->query($sql);
     }
     

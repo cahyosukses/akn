@@ -88,6 +88,7 @@ Licence URI: http://www.os-templates.com/template-terms
       <p><b>Abstract</b></p>
       <p><?= $data->abstract_en ?></p>
       <p><b>Keywords: </b><?= $data->keywords_en ?></p>
+      <p>Download File: <a target="blank" href="<?= base_url('assets/img/journal/'.$data->file) ?>">Disini</a></p>
       <?php }
       } else { ?>
         <i>Belum ada publikasi ilmiah pada kategori ini ..!</i>
