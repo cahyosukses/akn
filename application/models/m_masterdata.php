@@ -88,6 +88,141 @@ class M_masterdata extends CI_Model {
                 die('error uploading File!');
            }
         }
+        
+        if(isset($_FILES['mFileAtt']['name'])) {
+
+                $foto               = post_safe('attachment');
+                $FileName           = strtolower($_FILES['mFileAtt']['name']); //uploaded file name
+                $FileTitle		= $FileName;
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['mFileAtt']['type']; //file type
+                //$FileSize		= $_FILES['mFileAtt']["size"]; //file size
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                //$uploaded_date		= date("Y-m-d H:i:s");
+                if ($foto !== '') {
+                    @unlink('assets/img/berita/'.$foto);
+                }
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+//                        case 'image/png': //png file
+//                        case 'image/gif': //gif file 
+//                        case 'image/jpeg': //jpeg file
+                        case 'application/pdf': //PDF file
+                        case 'application/msword': //ms word file
+                        case 'application/vnd.ms-excel': //ms excel file
+                        case 'application/x-zip-compressed': //zip file
+//                        case 'text/plain': //text file
+//                        case 'text/html': //html file
+                                break;
+                        default:
+                                die('File yang anda upload harus berformat PDF, DOC, DOCX, XLS, XLSX !'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['judul']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['mFileAtt']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_berita', array('attachment' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        die(json_encode($result));
+        
+    }
+    
+    /*SLIDER*/
+    
+    function get_list_slider($limit, $start, $search) {
+        //$limitation = null; 
+        $q = NULL;
+        if ($search['id'] !== '') {
+            $q.=" and id = '".$search['id']."'";
+        }
+        $limitation =" limit $start , $limit";
+        
+        $sql = "select * from tb_slider where id is not NULL $q order by id desc";
+        $query = $this->db->query($sql.$limitation);
+        //echo $sql . $limitation;
+        $queryAll = $this->db->query($sql);
+        $data['data'] = $query->result();
+        $data['jumlah'] = $queryAll->num_rows();
+        return $data;
+    }
+    
+    function save_slider() {
+        $id = post_safe('id');
+        $UploadDirectory	= 'assets/img/slider/'; //Upload Directory, ends with slash & make sure folder exist
+        $NewFileName= "";
+        $data_array = array(
+            'judul' => post_safe('judul'),
+            'isi' => post_safe('isi_slider'),
+            //'gambar' => (!empty(strtolower($_FILES['mFile']['name']))?strtolower($_FILES['mFile']['name']):'')
+        );
+        //die($UploadDirectory);
+            // replace with your mysql database details
+        if (!@file_exists($UploadDirectory)) {
+                //destination folder does not exist
+                die('No upload directory');
+        }
+        if ($id === '') {
+            $this->db->insert('tb_slider', $data_array);
+            $result['act'] = 'add';
+            $result['id'] = $this->db->insert_id();
+        } else {
+            $this->db->where('id', $id);
+            $this->db->update('tb_slider', $data_array);
+            $result['act'] = 'edit';
+            $result['id'] = $id;
+        }
+        if(isset($_FILES['mFile']['name'])) {
+
+                $foto               = post_safe('gambar');
+                $FileName           = strtolower($_FILES['mFile']['name']); //uploaded file name
+                $FileTitle		= $FileName;
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['mFile']['type']; //file type
+                //$FileSize		= $_FILES['mFile']["size"]; //file size
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                //$uploaded_date		= date("Y-m-d H:i:s");
+                if ($foto !== '') {
+                    @unlink('assets/img/slider/'.$foto);
+                }
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file 
+                        case 'image/jpeg': //jpeg file
+//                        case 'application/pdf': //PDF file
+//                        case 'application/msword': //ms word file
+//                        case 'application/vnd.ms-excel': //ms excel file
+//                        case 'application/x-zip-compressed': //zip file
+//                        case 'text/plain': //text file
+//                        case 'text/html': //html file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['judul']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['mFile']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_slider', array('gambar' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
         die(json_encode($result));
         
     }
@@ -455,5 +590,188 @@ class M_masterdata extends CI_Model {
             $result['message']= 'Password barhasil diubah !';
         }
         return $result;
+    }
+    
+    function get_list_info_pendaftaran($limit, $start, $search) {
+        //$limitation = null; 
+        $q = NULL;
+        $limitation =" limit $start , $limit";
+        
+        $sql = "select * from tb_info_pendaftaran where id is not NULL $q order by id desc";
+        $query = $this->db->query($sql.$limitation);
+        //echo $sql . $limitation;
+        $queryAll = $this->db->query($sql);
+        $data['data'] = $query->result();
+        $data['jumlah'] = $queryAll->num_rows();
+        return $data;
+    }
+    
+    function save_info_pendaftaran() {
+        $data_array = array(
+            'id' => post_safe('id'),
+            'judul' => post_safe('nama'),
+            'keterangan' => post_safe('isi_keterangan')
+        );
+        
+        if ($data_array['id'] === '') {
+            $this->db->insert('tb_info_pendaftaran', $data_array);
+            $result['act'] = 'add';
+        } else {
+            $this->db->where('id', $data_array['id']);
+            $this->db->update('tb_info_pendaftaran', $data_array);
+            $result['act'] = 'edit';
+        }
+        return $result;
+    }
+    
+    function get_list_pmb($limit, $start, $search) {
+        $limitation = null; 
+        $q = NULL;
+        if ($search['awal'] !== '' and $search['akhir'] !== '') {
+            $q.=" and date(p.waktu_daftar) between '".$search['awal']."' and '".$search['akhir']."'";
+        }
+        if ($search['no_daftar'] !== '') {
+            $q.=" and p.no_pendaftaran like '%".$search['no_daftar']."%'";
+        }
+        if ($search['nama'] !== '') {
+            $q.=" and p.nama_lengkap like '%".$search['nama']."%'";
+        }
+        if ($search['pilihan1'] !== '') {
+            $q.=" and p.prodi_pil_1 = '".$search['pilihan1']."'";
+        }
+        if ($search['pilihan2'] !== '') {
+            $q.=" and p.prodi_pil_2 = '".$search['pilihan2']."'";
+        }
+        if ($search['ta'] !== '') {
+            $q.=" and p.tahun_ajaran = '".$search['ta']."'";
+        }
+        if ($start !== NULL) {
+            $limitation =" limit $start , $limit";
+        }
+        
+        $sql = "select p.*, pr.`link` as prodi1, pr2.`link` as prodi2,
+            date(waktu_daftar) as tanggal_daftar
+            from tb_pendaftaran p
+            left join tb_prodi pr on (p.prodi_pil_1 = pr.id) 
+            left join tb_prodi pr2 on (p.prodi_pil_2 = pr2.id)
+            where p.id is not NULL $q order by p.id desc";
+        
+        $query = $this->db->query($sql.$limitation);
+        //echo $sql . $limitation;
+        $queryAll = $this->db->query($sql);
+        $data['data'] = $query->result();
+        $data['jumlah'] = $queryAll->num_rows();
+        return $data;
+    }
+    
+    function get_tahun_ajaran_from_daftar() {
+        $sql = "select tahun_ajaran as ta from tb_pendaftaran group by tahun_ajaran";
+        return $this->db->query($sql);
+    }
+    
+    /*SAMBUTAN*/
+    function get_list_sambutans($limit, $start, $search) {
+        //$limitation = null; 
+        $q = NULL;
+        if ($search['id'] !== '') {
+            $q.=" and id = '".$search['id']."'";
+        }
+        $limitation =" limit $start , $limit";
+        
+        $sql = "select * from tb_sambutan where id is not NULL $q order by id desc";
+        $query = $this->db->query($sql.$limitation);
+        //echo $sql . $limitation;
+        $queryAll = $this->db->query($sql);
+        $data['data'] = $query->result();
+        $data['jumlah'] = $queryAll->num_rows();
+        return $data;
+    }
+    
+    function save_sambutan() {
+        $id = post_safe('id');
+        $UploadDirectory	= 'assets/img/profiles/'; //Upload Directory, ends with slash & make sure folder exist
+        $NewFileName= "";
+        $data_array = array(
+            'judul' => post_safe('judul'),
+            'isi' => post_safe('isi_sambutan'),
+            'link' => post_safe('nama')
+            //'gambar' => (!empty(strtolower($_FILES['mFile']['name']))?strtolower($_FILES['mFile']['name']):'')
+        );
+        //die($UploadDirectory);
+            // replace with your mysql database details
+        if (!@file_exists($UploadDirectory)) {
+                //destination folder does not exist
+                die('No upload directory');
+        }
+        if ($id === '') {
+            $this->db->insert('tb_sambutan', $data_array);
+            $result['act'] = 'add';
+            $result['id'] = $this->db->insert_id();
+        } else {
+            $this->db->where('id', $id);
+            $this->db->update('tb_sambutan', $data_array);
+            $result['act'] = 'edit';
+            $result['id'] = $id;
+        }
+        if(isset($_FILES['mFile']['name'])) {
+
+                $foto               = post_safe('gambar');
+                $FileName           = strtolower($_FILES['mFile']['name']); //uploaded file name
+                $FileTitle		= $FileName;
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['mFile']['type']; //file type
+                //$FileSize		= $_FILES['mFile']["size"]; //file size
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                //$uploaded_date		= date("Y-m-d H:i:s");
+                if ($foto !== '') {
+                    @unlink('assets/img/profiles/'.$foto);
+                }
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file 
+                        case 'image/jpeg': //jpeg file
+//                        case 'application/pdf': //PDF file
+//                        case 'application/msword': //ms word file
+//                        case 'application/vnd.ms-excel': //ms excel file
+//                        case 'application/x-zip-compressed': //zip file
+//                        case 'text/plain': //text file
+//                        case 'text/html': //html file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['judul']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['mFile']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_sambutan', array('gambar' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        die(json_encode($result));
+        
+    }
+    
+    function get_data_config() {
+        $sql = "select * from tb_ta_aktif";
+        return $this->db->query($sql);
+    }
+    
+    function save_config() {
+        $data = array(
+            'tahun' => post_safe('tahun'),
+            'form_pmdk' => post_safe('aktif_pmdk'),
+            'form_sumb' => post_safe('aktif_sumb'),
+        );
+        $this->db->update('tb_ta_aktif', $data);
+        return TRUE;
     }
 }

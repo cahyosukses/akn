@@ -164,8 +164,8 @@
       <a href="index.html"><img src="assets/img/logo.png" class="logo" alt=""  data-src="assets/img/logo.png" data-src-retina="assets/img/logo2x.png" width="106" height="21"/></a>
       <!-- END LOGO --> 
       <ul class="nav pull-right notifcation-center">	
-        <li class="dropdown" id="header_task_bar"> <a href="index.html" class="dropdown-toggle active" data-toggle=""> <div class="iconset top-home"></div> </a> </li>
-        <li class="dropdown" id="header_inbox_bar" > <a href="email.html" class="dropdown-toggle" > <div class="iconset top-messages"></div>  <span class="badge" id="msgs-badge">2</span> </a></li>
+          <li class="dropdown" id="header_task_bar"> <a href="<?= base_url('user') ?>" class="dropdown-toggle active" data-toggle=""> <div class="iconset top-home"></div> </a> </li>
+        <!--<li class="dropdown" id="header_inbox_bar" > <a href="email.html" class="dropdown-toggle" > <div class="iconset top-messages"></div>  <span class="badge" id="msgs-badge">2</span> </a></li>-->
 		<li class="dropdown" id="portrait-chat-toggler" style="display:none"> <a href="#sidr" class="chat-menu-toggle"> <div class="iconset top-chat-white "></div> </a> </li>        
       </ul>
       </div>
@@ -261,7 +261,7 @@
 						</div>				
 				</div>
 				<div class="profile-pic"> 
-					<img src="assets/img/profiles/avatar_small.jpg"  alt="" data-src="assets/img/profiles/avatar_small.jpg" data-src-retina="assets/img/profiles/avatar_small2x.jpg" width="35" height="35" /> 
+					<img src="<?= base_url('assets/img/profiles/user.png') ?>"  alt="" data-src="<?= base_url('assets/img/profiles/user.png') ?>" data-src-retina="assets/img/profiles/avatar_small2x.jpg" width="35" height="35" /> 
 				</div>       			
 			</div>
 		 <ul class="nav quick-section ">
@@ -270,17 +270,17 @@
 					<div class="iconset top-settings-dark "></div> 	
 				</a>
 				<ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
-                  <li><a href="user-profile.html"> My Account</a>
+<!--                  <li><a href="user-profile.html"> My Account</a>
                   </li>
                   <li><a href="calender.html">My Calendar</a>
                   </li>
                   <li><a href="email.html"> My Inbox&nbsp;&nbsp;<span class="badge badge-important animated bounceIn">2</span></a>
-                  </li>
+                  </li>-->
                   <li class="divider"></li>                
-                  <li><a href="login.html"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+                  <li><a href="<?= base_url('user/logout') ?>"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
                </ul>
 			</li> 
-			<li class="quicklinks"> <span class="h-seperate"></span></li> 
+<!--			<li class="quicklinks"> <span class="h-seperate"></span></li> 
 			<li class="quicklinks"> 	
 			<a id="chat-menu-toggle" href="#sidr" class="chat-menu-toggle" ><div class="iconset top-chat-dark "><span class="badge badge-important hide" id="chat-message-count">1</span></div>
 			</a> 
@@ -292,7 +292,7 @@
 						</div>
 					</div>
 				</div>
-			</li> 
+			</li> -->
 		</ul>
       </div>
 	   <!-- END CHAT TOGGLER -->
@@ -311,7 +311,7 @@
   <!-- BEGIN MINI-PROFILE -->
    <div class="user-info-wrapper">	
 	<div class="profile-wrapper">
-		<img src="assets/img/profiles/avatar.jpg"  alt="" data-src="assets/img/profiles/avatar.jpg" data-src-retina="assets/img/profiles/avatar2x.jpg" width="69" height="69" />
+            <img src="<?= base_url('assets/img/profiles/user.png') ?>"  alt="" data-src="<?= base_url('assets/img/profiles/user.png') ?>" data-src-retina="assets/img/profiles/avatar2x.jpg" width="69" height="69" />
 	</div>
     <div class="user-info">
       <div class="greeting">Welcome</div>
@@ -328,23 +328,31 @@
         <li class=" "> <a href="javascript:;;"> <i class="fa fa-windows"></i> <span class="title">Konten Website</span> <span class="selected"></span> <span class="arrow "></span></a> 
             <ul class="sub-menu">
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/news') ?>'); return false;" href="<?= base_url('') ?>"> Berita </a> </li>
-                <li> <a onclick="load_menu('<?= base_url('restrictarea/images') ?>'); return false;" href="<?= base_url('') ?>"> Upload Image </a> </li>
+                <li> <a onclick="load_menu('<?= base_url('restrictarea/slider') ?>'); return false;" href="<?= base_url('') ?>"> Slider </a> </li>
+                <!--<li> <a onclick="load_menu('<?= base_url('restrictarea/images') ?>'); return false;" href="<?= base_url('') ?>"> Upload Image </a> </li>-->
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/profile') ?>'); return false;" href="<?= base_url('') ?>"> Profil Universitas </a> </li>
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/prodi') ?>'); return false;" href="<?= base_url('') ?>"> Program Studi </a> </li>
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/contactus') ?>'); return false;" href="<?= base_url('') ?>"> Kontak Kami </a> </li>
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/journal_category') ?>'); return false;" href="<?= base_url('') ?>"> Kategori Journal </a> </li>
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/journal') ?>'); return false;" href="<?= base_url('') ?>"> Data Journal </a> </li>
+                <li> <a onclick="load_menu('<?= base_url('restrictarea/sambutan') ?>'); return false;" href="<?= base_url('') ?>"> Sambutan </a> </li>
             </ul>
         </li>
         <li class=" "> <a href="javascript:;;"> <i class="fa fa-graduation-cap"></i> <span class="title">Kemahasiswaan</span> <span class="selected"></span> <span class="arrow "></span></a> 
             <ul class="sub-menu">
-                <li> <a onclick="load_menu('<?= base_url('restrictarea/pendaftaran') ?>'); return false;" href="<?= base_url('') ?>"> Data Pendaftaran </a> </li>
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/kegiatan') ?>'); return false;" href="<?= base_url('') ?>"> Kegiatan </a> </li>
+            </ul>
+        </li>
+        <li class=" "> <a href="javascript:;;"> <i class="fa fa-child"></i> <span class="title">Pengelolaan PMB</span> <span class="selected"></span> <span class="arrow "></span></a> 
+            <ul class="sub-menu">
+                <li> <a onclick="load_menu('<?= base_url('restrictarea/pendaftaran') ?>'); return false;" href="<?= base_url('') ?>"> Data Pendaftaran </a> </li>
+                <li> <a onclick="load_menu('<?= base_url('restrictarea/info_pmb') ?>'); return false;" href="<?= base_url('') ?>"> Informasi PMB </a> </li>
             </ul>
         </li>
         <li class=" "> <a href="javascript:;;"> <i class="fa fa-wrench"></i> <span class="title">Konfigurasi</span> <span class="selected"></span> <span class="arrow "></span></a> 
             <ul class="sub-menu">
                 <li> <a onclick="load_menu('<?= base_url('restrictarea/changepassword') ?>'); return false;" href="<?= base_url('') ?>"> Ubah Password </a> </li>
+                <li> <a onclick="load_menu('<?= base_url('restrictarea/config') ?>'); return false;" href="<?= base_url('') ?>"> Setting Tahun Ajaran </a> </li>
             </ul>
         </li>
     </ul>

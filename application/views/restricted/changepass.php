@@ -20,7 +20,6 @@
             data: $('#chpass').serialize(),
             dataType: 'json',
             success: function(data) {
-                alert(data.status);
                 if (data.status === false) {
                     message_edit_failed();
                 } else {

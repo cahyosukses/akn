@@ -11,6 +11,7 @@
         forced_root_block : '',
         valid_children : "+body[style],-body[div],p[strong|a|#text]",
         valid_elements : '*[*]',
+        height: 300,
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code fullscreen",

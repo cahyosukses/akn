@@ -1,191 +1,202 @@
 <title><?= $title ?></title>
-
-<?= $this->load->view('message') ?>
 <script type="text/javascript">
-$(function() {
-    
-    $('#tabs').tabs();
-    //get_list_jenis_penerimaan(1);
-    form_cari_jenis_penerimaan();
-    $('#add_jenis_penerimaan').button({
-        icons: {
-            secondary: 'ui-icon-newwin'
-        }
-    }).click(function() {
-        form_jenis_penerimaan();
+    $(function() {
+        get_list_pmb(1);
+        $('#search_pmb').click(function() {
+            $('#datamodal').modal('show');
+            $('#datamodal h4.modal-title').html('Cari Data PMB');
+        });
+
+        $('#reload_pmb').click(function() {
+            reset_form();
+            get_list_pmb(1);
+        });
+        
+        $('#awal, #akhir').datepicker({
+            format: "dd/mm/yyyy"
+        }).on('changeDate', function(){
+            $(this).datepicker('hide');
+        });
+        
+        $('#export_button').click(function() {
+            window.location='<?= base_url('restrictarea/export_pendaftar') ?>/?'+$('#formsearch').serialize();
+        });
     });
     
-    $('#reload_jenis_penerimaan').button({
-        icons: {
-            secondary: 'ui-icon-refresh'
-        }
-    }).click(function() {
-        reset_form();
-        get_list_jenis_penerimaan();
-    });
+    function print_pmb(id_daftar) {
+        
+    }
     
-    $('#cari_button').button({
-        icons: {
-            secondary: 'ui-icon-search'
-        }
-    }).click(function() {
-        //$('#dialog_cari_jenis_penerimaan').dialog('open');
-        $('#datamodal').modal('show');
-    });
-});
-function get_list_jenis_penerimaan(page, id) {
-    var page= (page !== undefined)?page:1;
-    var id  = (id !== undefined)?id:'';
-    $.ajax({
-        url: '<?= base_url('masterdata/manage_jenis_penerimaan') ?>/list/'+page,
-        data: $('#form_cari_jenis_penerimaan').serialize()+'&id='+id,
-        cache: false,
-        success: function(data) {
-            $('#result').html(data);
-        }
-    });
-}
-
-function form_jenis_penerimaan() {
-    var str = '<div id="dialog_jenis_penerimaan"><form action="" id="form_jenis_penerimaan">'+
-            '<?= form_hidden('id_jenis_penerimaan', NULL, 'id=id_jenis_penerimaan') ?>'+
-            '<table width=100% cellpadding=0 cellspacing=0 class=inputan>'+
-                '<tr><td>Nama Penerimaan *:</td><td><?= form_input('nama', NULL, 'id=nama') ?></td></tr>'+
-                '<tr><td>Jenis Penerimaan *:</td><td><select name="jenis" id="jenis"><option value="">Pilih ...</option><option value="Mahasiswa">Mahasiswa</option><option value="Non Mahasiswa">Non Mahasiswa</option></select></td></tr>'+
-                '<tr><td>Status *:</td><td><select name="status" id="status"><option value="">Pilih ...</option><option value="SPP">SPP</option><option value="Non SPP">Non SPP</option></select></td></tr>'+
-                //'<tr><td width=30%>Nama Unit Satker:</td><td><?= form_input('nama', NULL, 'id=nama size=40 onKeyup="javascript:this.value=this.value.toUpperCase();"') ?></td></tr>'+
-            '</table>'+
-            '</form></div>';
-    $(str).dialog({
-        title: 'Tambah Jenis Penerimaan',
-        autoOpen: true,
-        width: 480,
-        height: 180,
-        modal: true,
-        hide: 'clip',
-        show: 'blind',
-        buttons: {
-            "Simpan": function() {
-                save_data();
-            }, "Cancel": function() {
-                $(this).dialog().remove();
-            }
-        }, close: function() {
-            $(this).dialog().remove();
-        }
-    });
-}
-
-function form_cari_jenis_penerimaan() {
-    var str = '<div id="dialog_cari_jenis_penerimaan"><form action="" id="form_cari_jenis_penerimaan">'+
-            '<table width=100% cellpadding=0 cellspacing=0 class=inputan>'+
-                '<tr><td>Nama Penerimaan :</td><td><?= form_input('nama', NULL, '') ?></td></tr>'+
-                '<tr><td>Jenis Penerimaan :</td><td><select name="jenis"><option value="">Pilih ...</option><option value="Mahasiswa">Mahasiswa</option><option value="Non Mahasiswa">Non Mahasiswa</option></select></td></tr>'+
-                '<tr><td>Status :</td><td><select name="status"><option value="">Pilih ...</option><option value="SPP">SPP</option><option value="Non SPP">Non SPP</option></select></td></tr>'+
-                //'<tr><td width=30%>Nama Unit Satker:</td><td><?= form_input('nama', NULL, 'id=nama size=40 onKeyup="javascript:this.value=this.value.toUpperCase();"') ?></td></tr>'+
-            '</table>'+
-            '</form></div>';
-    $(str).dialog({
-        title: 'Cari Jenis Penerimaan',
-        autoOpen: false,
-        width: 480,
-        height: 180,
-        modal: true,
-        hide: 'clip',
-        show: 'blind',
-        buttons: {
-            "Cari": function() {
-                get_list_jenis_penerimaan(1);
-                $(this).dialog('close');
-            }, "Cancel": function() {
-                $(this).dialog('close');
-            }
-        }, close: function() {
-            $(this).dialog('close');
-        }
-    });
-}
-
-function reset_form() {
-    $('input, select, textarea').val('');
-    $('input[type=checkbox], input[type=radio]').removeAttr('checked');
-}
-
-function save_data() {
-    if ($('#nama').val() === '') {
-        custom_message('Peringatan', 'Nama penerimaan tidak boleh kosong !', '#nama');
-        $('#nama').focus(); return false;
-    }
-    if ($('#jenis').val() === '') {
-        custom_message('Peringatan', 'Jenis penerimaan tidak boleh kosong !', '#jenis');
-        $('#jenis').focus(); return false;
-    }
-    if ($('#status').val() === '') {
-        custom_message('Peringatan', 'Status penerimaan tidak boleh kosong !', '#status');
-        $('#status').focus(); return false;
-    }
-    var cek_id = $('#id_jenis_penerimaan').val();
-    $.ajax({
-        url: '<?= base_url('masterdata/manage_jenis_penerimaan/save') ?>',
-        type: 'POST',
-        dataType: 'json',
-        data: $('#form_jenis_penerimaan').serialize(),
-        cache: false,
-        success: function(data) {
-            if (data.status === true) {
-                if (cek_id === '') {
-                    reset_form();
-                    alert_tambah();
-                    get_list_jenis_penerimaan('1','',data.id_jenis_penerimaan);
-                } else {
-                    alert_edit();
-                    $('#form_add').dialog().remove();
-                    get_list_jenis_penerimaan($('.noblock').html(),'');
-                }
-            }
-        }
-    });
-}
-
-function edit_jenis_penerimaan(str) {
-    var arr = str.split('#');
-    form_jenis_penerimaan();
-    $('#id_jenis_penerimaan').val(arr[0]);
-    $('#nama').val(arr[1]);
-    $('#jenis').val(arr[3]);
-    $('#status').val(arr[2]);
-    $('#dialog_jenis_penerimaan').dialog({ title: 'Edit Jenis Penerimaan' });
-}
-
-function paging(page, tab, search) {
-    get_list_jenis_penerimaan(page, search);
-}
-
-function delete_jenis_penerimaan(id, page) {
-    $('<div id=alert>Anda yakin akan menghapus data ini?</div>').dialog({
-        title: 'Konfirmasi Penghapusan',
-        autoOpen: true,
-        modal: true,
-        buttons: {
-            "OK": function() {
-                
-                $.ajax({
-                    url: '<?= base_url('masterdata/manage_jenis_penerimaan/delete') ?>?id='+id,
-                    cache: false,
-                    success: function() {
-                        get_list_jenis_penerimaan(page);
-                        $('#alert').dialog().remove();
-                    }
-                });
+    function get_list_pmb(p, id) {
+        $('#datamodal').modal('hide');
+        var id = '';
+        $.ajax({
+            type : 'GET',
+            url: '<?= base_url("api/restrictarea/pmbs") ?>/page/'+p+'/id/'+id,
+            data: $('#formsearch').serialize(),
+            cache: false,
+            dataType: 'json',
+            beforeSend: function() {
+                show_ajax_indicator();
             },
-            "Cancel": function() {
-                $(this).dialog().remove();
+            success: function(data) {
+                if ((p > 1) & (data.data.length === 0)) {
+                    get_list_alumni(p-1);
+                    return false;
+                };
+
+                $('#pagination_no').html(pagination(data.jumlah, data.limit, data.page, 1));
+                $('#page_summary_no').html(page_summary(data.jumlah, data.data.length, data.limit, data.page));
+
+                $('#load_data_table tbody').empty();          
+                var str = '';
+
+                $.each(data.data,function(i, v){
+                    var highlight = 'odd';
+                    if ((i % 2) === 1) {
+                        highlight = 'even';
+                    };
+                    str = '<tr class="'+highlight+'">'+
+                            '<td align="center">'+((i+1) + ((data.page - 1) * data.limit))+'</td>'+
+                            '<td>'+datefmysql(v.tanggal_daftar)+'</td>'+
+                            '<td>'+v.no_pendaftaran+'</td>'+
+                            '<td>'+v.nama+'</td>'+
+                            '<td>'+v.asal_sekolah+'</td>'+
+                            '<td>'+v.prodi1+'</td>'+
+                            '<td>'+v.prodi2+'</td>'+
+                            '<td align="center" class=aksi>'+
+//                                '<button type="button" class="btn btn-default btn-mini" onclick="print_pmb(\''+v.id+'\')"><i class="fa fa-print"></i></button> '+
+                                '<button type="button" class="btn btn-default btn-mini" onclick="delete_pmb(\''+v.id+'\','+data.page+');"><i class="fa fa-trash-o"></i></button>'+
+                            '</td>'+
+                        '</tr>';
+                    $('#load_data_table tbody').append(str);
+                    no = v.id;
+                });                
+            },
+            complete: function() {
+                hide_ajax_indicator();
+            },
+            error: function(e){
+                hide_ajax_indicator();
             }
-        }
-    });
-}
+        });
+    }
+
+    function reset_form() {
+        $('input, select, textarea').val('');
+        $('#oldpict').html('');
+        $('input[type=checkbox], input[type=radio]').removeAttr('checked');
+    }
+
+    function edit_pmb(id) {
+        $('#oldpict').html('');
+        $('#datamodal').modal('show');
+        $('#datamodal h4.modal-title').html('Edit pmb');
+        $.ajax({
+            type: 'GET',
+            url: '<?= base_url('api/restrictarea/pmbs') ?>/page/1/id/'+id,
+            dataType: 'json',
+            success: function(data) {
+                $('#id').val(data.data[0].id);
+                $('#judul').val(data.data[0].judul);
+                tinyMCE.activeEditor.setContent(data.data[0].isi);
+                $('#gambar').val(data.data[0].gambar);
+                $('#oldpict').html('<img src="<?= base_url('assets/img/pmb') ?>/'+data.data[0].gambar+'" width="300px;" />')
+            }
+        });
+    }
+        
+    function paging(p) {
+        get_list_pmb(p);
+    }
+
+    function konfirmasi_save() {
+        $('#isi_pmb').val(tinyMCE.get('isi').getContent());
+        bootbox.dialog({
+            message: "Anda yakin akan menyimpan data ini?",
+            title: "Konfirmasi Simpan",
+            buttons: {
+              batal: {
+                label: '<i class="fa fa-times-circle"></i> Tidak',
+                className: "btn-default",
+                callback: function() {
+
+                }
+              },
+              ya: {
+                label: '<i class="fa fa-save"></i>  Ya',
+                className: "btn-primary",
+                callback: function() {
+                    save_pmb();
+                }
+              }
+            }
+          });
+      }
+
+    function save_pmb() {
+        $('#formadd').ajaxSubmit({
+            target: '#output',
+            dataType: 'json',
+            data: $('#formadd').serialize()+'&isi='+tinyMCE.activeEditor.getContent(),
+            beforeSend: function() {
+                show_ajax_indicator();
+            },
+            success: function(msg) {
+                var page = $('.pagination .active a').html();
+                $('#datamodal').modal('hide');
+                hide_ajax_indicator();
+                $('input[type=text],input[type=file], select').val('');
+                if (msg.act === 'add') {
+                    message_add_success();
+                    get_list_pmb(1);
+                } else {
+                    message_edit_success();
+                    get_list_pmb(page);
+                }
+            },
+            error: function() {
+                $('#datamodal').modal('hide');
+                var page = $('.pagination .active a').html();
+                get_list_pmb(page);
+                hide_ajax_indicator();
+            }
+        });
+    }
+
+    function delete_pmb(id, page) {
+        bootbox.dialog({
+            message: "Anda yakin akan menghapus data ini?",
+            title: "Konfirmasi Hapus",
+            buttons: {
+              batal: {
+                label: '<i class="fa fa-times-circle"></i> Tidak',
+                className: "btn-default",
+                callback: function() {
+
+                }
+              },
+              ya: {
+                label: '<i class="fa fa-trash"></i>  Ya',
+                className: "btn-primary",
+                callback: function() {
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '<?= base_url('api/restrictarea/pmb') ?>/id/'+id,
+                        dataType: 'json',
+                        success: function(data) {
+                            message_delete_success();
+                            get_list_pmb(page);
+                        }
+                    });
+                }
+              }
+            }
+        });
+    }
+
 </script>
-<div class="content">
+    <div class="content">
       <ul class="breadcrumb">
         <li>
           <p>YOU ARE HERE</p>
@@ -195,56 +206,97 @@ function delete_jenis_penerimaan(id, page) {
       <div class="row">
         <div class="col-md-12">
           <div class="grid simple ">
-        <div class="grid-title no-border">
-        <h4>Message <span class="semi-bold">boxes</span></h4>
-        <div class="tools"> 
-            <button id="add_jenis_penerimaan" class="btn btn-mini"><i class="fa fa-plus-circle"></i> Tambah Data</button>
-            <button id="reload_jenis_penerimaan" class="btn btn-mini"><i class="fa fa-refresh"></i> Reload Data</button>
-            <button id="cari_button" class="btn btn-mini"><i class="fa fa-search"></i> Cari</button>
-        </div>
-        </div>
-        <div class="grid-body no-border">
-        <div class="row-fluid">
-            <div id="result">
-
+            <div class="grid-title">
+              <h4>Daftar List Penerimaan Mahasiswa Baru</h4>
+                <div class="tools"> 
+                    <button id="search_pmb" class="btn btn-info btn-mini"><i class="fa fa-search"></i> Cari</button>
+                    <button id="export_button" class="btn btn-mini"><i class="fa fa-file-excel-o"></i> Export Excel</button>
+                    <button id="reload_pmb" class="btn btn-mini"><i class="fa fa-refresh"></i> Reload</button>
+                </div>
             </div>
-        </div>
+            <div class="grid-body">
+              <div class="scroller" data-height="220px">
+                <div id="result">
+                    <table class="table table-bordered table-stripped table-hover" id="load_data_table">
+                        <thead>
+                        <tr>
+                          <th width="3%">No</th>
+                          <th width="7%" class="left">Tanggal</th>
+                          <th width="7%" class="left">No. Daftar</th>
+                          <th width="15%" class="left">Nama</th>
+                          <th width="18%" class="left">Asal Sekolah</th>
+                          <th width="20%" class="left">Pilihan 1</th>
+                          <th width="20%" class="left">Pilihan 2</th>
+                          <th width="10%"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div id="pagination_no" class="pagination"></div>
+                    <div class="page_summary" id="page_summary_no"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div id="datamodal" class="modal fade">
-        <div class="modal-dialog">
+            <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Modal title</h4>
+              <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
-              <form action="" id="search_renbut" role="form" class="form-horizontal">
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">@</span>
-                    <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+                <form id="formsearch">
+                <div class="form-group">
+                    <label for="recipient-name" class="control-label">Tanggal Daftar:</label>
+                    <input type="text" name="awal"  class="form-control" id="awal" style="width: 145px; float: left; margin-right: 5px;">
+                    <input type="text" name="akhir"  class="form-control" id="akhir" style="width: 145px;">
                 </div>
-
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
-                    <span class="input-group-addon" id="basic-addon2">@example.com</span>
+                <div class="form-group">
+                    <label for="recipient-name" class="control-label">Tahun Ajaran:</label>
+                    <select name="ta" id="ta" class="form-control">
+                        <?php foreach ($tahun_ajaran as $data) { ?>
+                        <option value="<?= $data->ta ?>"><?= $data->ta ?> / <?= $data->ta+1 ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
-
-                <div class="input-group">
-                    <span class="input-group-addon">$</span>
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                    <span class="input-group-addon">.00</span>
+                <div class="form-group">
+                    <label for="recipient-name" class="control-label">No. Pendaftaran:</label>
+                    <input type="text" name="no_daftar"  class="form-control" id="no_daftar">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nama Calon Mahasiswa:</label>
+                    <input type="text" name="nama"  class="form-control" id="nama">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="control-label">Prodi Pilihan 1:</label>
+                    <select id="pilihan1" name="pilihan1" class="form-control">
+                        <option value="">Pilih ...</option>
+                        <?php foreach ($jurusan as $key => $data) { ?>
+                        <option value="<?= $data->id ?>"><?= $data->link ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="control-label">Prodi Pilihan 2:</label>
+                    <select id="pilihan2" name="pilihan2" class="form-control">
+                        <option value="">Pilih ...</option>
+                        <?php foreach ($jurusan as $key => $data) { ?>
+                        <option value="<?= $data->id ?>"><?= $data->link ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
             </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-refresh"></i> Batal</button>
-              <button type="button" class="btn btn-primary" id="save" onclick="get_list_renbut(1);"><i class="fa fa-eye"></i> Tampilkan</button>
+              <button type="button" class="btn btn-primary" onclick="get_list_pmb(1);"><i class="fa fa-search"></i> Cari Data</button>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-        </div>
-        </div>
       </div>
       <!-- END PAGE -->
     </div>

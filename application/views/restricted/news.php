@@ -6,19 +6,22 @@
         tinyMCE.init({
             selector: "textarea#isi",
             theme: "modern",
-            menubar: "tools table format view insert edit",
+            plugins: [
+                "advlist autolink lists link image code charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons template paste textcolor colorpicker textpattern imagetools"
+            ],
+            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            toolbar2: "print preview media | forecolor backcolor emoticons",
+            image_advtab: true,
             force_br_newlines : false,
             force_p_newlines : false,
             forced_root_block : '',
+            relative_urls: true,
             //plugins: "fullpage",
             valid_elements : '*[*]',
             height: 300,
-            plugins: [
-                "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table contextmenu paste"
-            ],
-            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
             setup: function(ed){
                 ed.on("init",
                     function(ed) {
@@ -112,7 +115,40 @@
                 $('#judul').val(data.data[0].judul);
                 tinyMCE.activeEditor.setContent(data.data[0].isi);
                 $('#gambar').val(data.data[0].gambar);
-                $('#oldpict').html('<img src="<?= base_url('assets/img/berita') ?>/'+data.data[0].gambar+'" width="300px;" />')
+                $('#oldpict').html('<img src="<?= base_url('assets/img/berita') ?>/'+data.data[0].gambar+'" width="300px;" />');
+                if (data.data[0].attachment !== '') {
+                    $('#oldattachment').html('<a target="blank" href="<?= base_url('assets/img/berita') ?>/'+data.data[0].attachment+'" >Download File </a> <i title="Klik untuk menghapus file" onclick="removeFile('+data.data[0].id+');" class="fa fa-times-circle"></i>');
+                }
+            }
+        });
+    }
+    
+    function removeFile(id) {
+        bootbox.dialog({
+            message: "Anda yakin akan menghapus file ini?",
+            title: "Konfirmasi Simpan",
+            buttons: {
+              batal: {
+                label: '<i class="fa fa-times-circle"></i> Tidak',
+                className: "btn-default",
+                callback: function() {
+
+                }
+              },
+              ya: {
+                label: '<i class="fa fa-trash"></i>  Ya',
+                className: "btn-primary",
+                callback: function() {
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '<?= base_url('api/restrictarea/berita_file') ?>/id/'+id,
+                        success: function(data) {
+                            message_delete_success();
+                            $('#oldattachment').empty();
+                        }
+                    });
+                }
+              }
             }
         });
     }
@@ -262,6 +298,7 @@
                 <form action="<?= base_url('api/restrictarea/berita') ?>" id="formadd" method="post" role="form" enctype="multipart/form-data">
                 <input type="hidden" name="id" id="id" />
                 <input type="hidden" name="gambar" id="gambar" />
+                <input type="hidden" name="attachment" id="attachment" />
                 <input type="hidden" name="isi_berita" id="isi_berita" />
                 <div class="form-group">
                     <label for="recipient-name" class="control-label">Judul:</label>
@@ -272,7 +309,23 @@
                     <textarea name="isi" id="isi" class="isi"></textarea>
                 </div>
                 <div class="form-group">
+                    <label for="recipient-name" class="control-label">File Attachment:</label>
+                    <label for="mFileAtt" class="custom-file-upload">
+                        <i class="fa fa-cloud-upload"></i> Pdf File Attachment
+                    </label>
+                    <input type="file" name="mFileAtt"  id="mFileAtt" />
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="control-label"></label>
+                    <div id="oldattachment">
+
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="recipient-name" class="control-label">Gambar:</label>
+                    <label for="mFileAtt" class="custom-file-upload">
+                        <i class="fa fa-cloud-upload"></i> Image File
+                    </label>
                     <input type="file" name="mFile"  id="mFile" />
                 </div>
                 <div class="form-group">
