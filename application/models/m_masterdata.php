@@ -627,6 +627,9 @@ class M_masterdata extends CI_Model {
     function get_list_pmb($limit, $start, $search) {
         $limitation = null; 
         $q = NULL;
+        if ($search['id'] !== '') {
+            $q.=" and p.id = '".$search['id']."'";
+        }
         if ($search['awal'] !== '' and $search['akhir'] !== '') {
             $q.=" and date(p.waktu_daftar) between '".$search['awal']."' and '".$search['akhir']."'";
         }

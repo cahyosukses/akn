@@ -322,6 +322,7 @@ class Restrictarea extends REST_Controller {
         $start = ($this->get('page') - 1) * $this->limit;
         
         $search= array(
+            'id' => $this->get('id'),
             'awal' => date2mysql(get_safe('awal')),
             'akhir' => date2mysql(get_safe('akhir')),
             'nama' => get_safe('nama'),

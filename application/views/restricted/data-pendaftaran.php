@@ -27,6 +27,25 @@
         
     }
     
+    function detail_pmb(id) {
+        $('#datamodal-detail').modal('show');
+        $.ajax({
+            type : 'GET',
+            url: '<?= base_url("api/restrictarea/pmbs") ?>/page/1/id/'+id,
+            data: $('#formsearch').serialize(),
+            cache: false,
+            dataType: 'json',
+            success: function(data) {
+                $('#load-images').append(data.data[0].ijasah);
+                $('#load-images').append(data.data[0].hasil_un);
+                $('#load-images').append(data.data[0].bukti1);
+                $('#load-images').append(data.data[0].bukti2);
+                $('#load-images').append(data.data[0].bukti3);
+                $('#load-images').append(data.data[0].bukti4);
+            }
+        });
+    }
+    
     function get_list_pmb(p, id) {
         $('#datamodal').modal('hide');
         var id = '';
@@ -66,6 +85,7 @@
                             '<td>'+v.prodi2+'</td>'+
                             '<td align="center" class=aksi>'+
 //                                '<button type="button" class="btn btn-default btn-mini" onclick="print_pmb(\''+v.id+'\')"><i class="fa fa-print"></i></button> '+
+                                '<button type="button" class="btn btn-default btn-mini" onclick="detail_pmb(\''+v.id+'\')"><i class="fa fa-eye"></i></button> '+
                                 '<button type="button" class="btn btn-default btn-mini" onclick="delete_pmb(\''+v.id+'\','+data.page+');"><i class="fa fa-trash-o"></i></button>'+
                             '</td>'+
                         '</tr>';
@@ -297,6 +317,24 @@
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+        
+        <div id="datamodal-detail" class="modal fade">
+            <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Detail Upload Berkas</h4>
+            </div>
+              <div class="modal-body" id="load-images">
+                  
+              </div>
+              <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-refresh"></i> Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+              
       </div>
       <!-- END PAGE -->
     </div>

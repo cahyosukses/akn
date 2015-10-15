@@ -194,6 +194,210 @@ class M_main extends CI_Model {
             $this->db->trans_commit();
             $result['status'] = TRUE;
         }
+        
+        $UploadDirectory	= 'assets/img/pendaftaran/'; //Upload Directory, ends with slash & make sure folder exist
+        $NewFileName= "";
+        if (!@file_exists($UploadDirectory)) {
+                //destination folder does not exist
+                die('No upload directory');
+        }
+        if(isset($_FILES['ijasah']['name'])) {
+                $FileName           = strtolower($_FILES['ijasah']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['ijasah']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['ijasah']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('ijasah' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        
+        if(isset($_FILES['hasil_un']['name'])) {
+                $FileName           = strtolower($_FILES['hasil_un']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['hasil_un']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['hasil_un']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('hasil_un' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        
+        if(isset($_FILES['bukti1']['name'])) {
+                $FileName           = strtolower($_FILES['bukti1']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['bukti1']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['bukti1']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('bukti1' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        
+        if(isset($_FILES['bukti2']['name'])) {
+                $FileName           = strtolower($_FILES['bukti2']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['bukti2']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['bukti2']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('bukti2' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        
+        if(isset($_FILES['bukti3']['name'])) {
+                $FileName           = strtolower($_FILES['bukti3']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['bukti3']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['bukti3']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('bukti3' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        
+        if(isset($_FILES['bukti4']['name'])) {
+                $FileName           = strtolower($_FILES['bukti4']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['bukti4']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['bukti4']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('bukti4' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
         return $result;
     }
     
@@ -243,6 +447,210 @@ class M_main extends CI_Model {
             $this->db->trans_commit();
             $result['status'] = TRUE;
         }
+        $UploadDirectory	= 'assets/img/pendaftaran/'; //Upload Directory, ends with slash & make sure folder exist
+        $NewFileName= "";
+        if (!@file_exists($UploadDirectory)) {
+                //destination folder does not exist
+                die('No upload directory');
+        }
+        if(isset($_FILES['ijasah']['name'])) {
+                $FileName           = strtolower($_FILES['ijasah']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['ijasah']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['ijasah']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('ijasah' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        
+        if(isset($_FILES['hasil_un']['name'])) {
+                $FileName           = strtolower($_FILES['hasil_un']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['hasil_un']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['hasil_un']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('hasil_un' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        
+        if(isset($_FILES['bukti1']['name'])) {
+                $FileName           = strtolower($_FILES['bukti1']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['bukti1']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['bukti1']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('bukti1' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        
+        if(isset($_FILES['bukti2']['name'])) {
+                $FileName           = strtolower($_FILES['bukti2']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['bukti2']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['bukti2']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('bukti2' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        
+        if(isset($_FILES['bukti3']['name'])) {
+                $FileName           = strtolower($_FILES['bukti3']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['bukti3']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['bukti3']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('bukti3' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        
+        if(isset($_FILES['bukti4']['name'])) {
+                $FileName           = strtolower($_FILES['bukti4']['name']); //uploaded file name
+                $ImageExt		= substr($FileName, strrpos($FileName, '.')); //file extension
+                $FileType		= $_FILES['bukti4']['type']; //file type
+                
+                $RandNumber   		= rand(0, 99999); //Random number to make each filename unique.
+                
+                
+                switch(strtolower($FileType))
+                {
+                        //allowed file types
+                        case 'image/png': //png file
+                        case 'image/gif': //gif file
+                        case 'image/jpeg': //jpeg file
+                                break;
+                        default:
+                                die('Unsupported File!'); //output error
+                }
+
+
+                //File Title will be used as new File name
+                $NewFileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-]/'), array('_', '.', ''), strtolower($data_array['no_pendaftaran']));
+                $NewFileName = $NewFileName.'_'.$RandNumber.$ImageExt;
+           //Rename and save uploded file to destination folder.
+           if(move_uploaded_file($_FILES['bukti4']["tmp_name"], $UploadDirectory . $NewFileName ))
+           {
+                $this->db->where('id', $result['id']);
+                $this->db->update('tb_pendaftaran', array('bukti4' => $NewFileName));
+           } else {
+                die('error uploading File!');
+           }
+        }
+        
         return $result;
     }
 }

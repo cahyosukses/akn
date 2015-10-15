@@ -20,6 +20,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <script type="text/javascript" src="<?= base_url('assets/sched/scripts/jquery.min.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/sched/scripts/jquery.slidepanel.setup.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/jquery.nicescroll.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/js/jquery.form.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/bootstrap.min.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/bootbox.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/js/bootstrap-datepicker.js') ?>"></script>
@@ -194,9 +195,9 @@ Licence URI: http://www.os-templates.com/template-terms
     }   
 
     function save_pendaftaran() {
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('api/main/save_pendaftaran_sumb') ?>',
+        $('#form-pendaftaran').ajaxSubmit({
+            target: '#output',
+            dataType: 'json',
             data: $('#form-pendaftaran').serialize(),
             success: function(data) {
                 if (data.status === false) {
@@ -244,7 +245,7 @@ Licence URI: http://www.os-templates.com/template-terms
   <div id="container" class="form-pendaftaran">
             <h2><?= $title ?> Tahun Ajaran <?= $tahun->tahun ?>/<?= ($tahun->tahun+1) ?> </h2>
             <p style="margin-left: 20px;">Catatan: Bagian yang ditandai dengan ( * ) adalah komponen yang harus diisikan secara lengkap</p>
-            <form id="form-pendaftaran">
+            <form id="form-pendaftaran" action="<?= base_url('api/main/save_pendaftaran_sumb') ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="tahun_ajaran" id="tahun_ajaran" value="<?= $tahun->tahun ?>" />
                 <table class="formulir" width="70%" style="border: none; margin-left: 20px;" cellspacing="0" cellpadding="0">
                     <tr><td colspan="2"><B>IDENTITAS PRIBADI</B></td></tr>
@@ -356,6 +357,13 @@ Licence URI: http://www.os-templates.com/template-terms
                             </select>
                         </td></tr>
                     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                    <tr><td colspan="2"><B>UPLOAD BERKAS PENDAFTARAN</B></td></tr>
+                    <tr><td>SCAN IJASAH:</td><td><input type="file" name="ijasah" id="ijasah" /> </td></tr>
+                    <tr><td>SCAN HASIL UN:</td><td><input type="file" name="hasil_un" id="hasil_un" /> </td></tr>
+                    <tr><td>SCAN BUKTI PRESTASI Non AKADEMIK 1:</td><td><input type="file" name="bukti1" id="buktinonakad1" /> </td></tr>
+                    <tr><td>SCAN BUKTI PRESTASI Non AKADEMIK 2:</td><td><input type="file" name="bukti2" id="buktinonakad2" /> </td></tr>
+                    <tr><td>SCAN BUKTI PRESTASI Non AKADEMIK 3:</td><td><input type="file" name="bukti3" id="buktinonakad3" /> </td></tr>
+                    <tr><td>SCAN BUKTI PRESTASI Non AKADEMIK 4:</td><td><input type="file" name="bukti4" id="buktinonakad4" /> </td></tr>
                     <tr><td></td><td>
                             <button  onclick="konfirmasi_simpan(); return false;" class="btn btn-primary btn-xlarge" ><i class="fa fa-save" style="font-size: 12px;"></i> Simpan Pendaftaran</button>
                             <button class="btn" onclick="reset_form(); return false;"><i class="fa fa-refresh"></i> Reset Data</button>
