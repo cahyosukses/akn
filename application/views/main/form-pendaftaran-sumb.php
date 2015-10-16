@@ -66,7 +66,7 @@ Licence URI: http://www.os-templates.com/template-terms
     });
     
     function reset_form() {
-        $('input[type=text], input[type=hidden], select, textarea').val('');
+        $('input[type=text], input[type=hidden], select, textarea, input[type=file]').val('');
         $('input[type=radio]').removeAttr('checked');
     }
     

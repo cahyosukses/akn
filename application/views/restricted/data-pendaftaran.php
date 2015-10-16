@@ -29,6 +29,7 @@
     
     function detail_pmb(id) {
         $('#datamodal-detail').modal('show');
+        $('#load-images').empty();
         $.ajax({
             type : 'GET',
             url: '<?= base_url("api/restrictarea/pmbs") ?>/page/1/id/'+id,
@@ -36,12 +37,24 @@
             cache: false,
             dataType: 'json',
             success: function(data) {
-                $('#load-images').append(data.data[0].ijasah);
-                $('#load-images').append(data.data[0].hasil_un);
-                $('#load-images').append(data.data[0].bukti1);
-                $('#load-images').append(data.data[0].bukti2);
-                $('#load-images').append(data.data[0].bukti3);
-                $('#load-images').append(data.data[0].bukti4);
+                if (data.data[0].ijasah !== '') {
+                    $('#load-images').append('<h4>IJASAH</h4><img src="<?= base_url('assets/img/pendaftaran') ?>/'+data.data[0].ijasah+'" width="1024px" /><br/><a href="<?= base_url('assets/img/pendaftaran') ?>" download="'+data.data[0].ijasah+'" title="ImageName">Download Ijasah</a><br/><br/>');
+                }
+                if (data.data[0].hasil_un !== '') {
+                    $('#load-images').append('<h4>HASIL UN</h4><img src="<?= base_url('assets/img/pendaftaran') ?>/'+data.data[0].hasil_un+'" width="1024px" /><br/><a href="<?= base_url('assets/img/pendaftaran') ?>" download="'+data.data[0].hasil_un+'" title="ImageName">Download Hasil UN</a><br/><br/>');
+                }
+                if (data.data[0].bukti1 !== '') {
+                    $('#load-images').append('<h4>BUKTI NON AKADEMIK 1</h4><img src="<?= base_url('assets/img/pendaftaran') ?>/'+data.data[0].bukti1+'" width="1024px" /><br/><a href="<?= base_url('assets/img/pendaftaran') ?>" download="'+data.data[0].bukti1+'" title="ImageName">Download Bukti 1</a><br/><br/>');
+                }
+                if (data.data[0].bukti2 !== '') {
+                    $('#load-images').append('<h4>BUKTI NON AKADEMIK 2</h4><img src="<?= base_url('assets/img/pendaftaran') ?>/'+data.data[0].bukti2+'" width="1024px" /><br/><a href="<?= base_url('assets/img/pendaftaran') ?>" download="'+data.data[0].bukti2+'" title="ImageName">Download Bukti 2</a><br/><br/>');
+                }
+                if (data.data[0].bukti3 !== '') {
+                    $('#load-images').append('<h4>BUKTI NON AKADEMIK 3</h4><img src="<?= base_url('assets/img/pendaftaran') ?>/'+data.data[0].bukti3+'" width="1024px" /><br/><a href="<?= base_url('assets/img/pendaftaran') ?>" download="'+data.data[0].bukti3+'" title="ImageName">Download Bukti 3</a><br/><br/>');
+                }
+                if (data.data[0].bukti4 !== '') {
+                    $('#load-images').append('<h4>BUKTI NON AKADEMIK 4</h4><img src="<?= base_url('assets/img/pendaftaran') ?>/'+data.data[0].bukti4+'" width="1024px" /><br/><a href="<?= base_url('assets/img/pendaftaran') ?>" download="'+data.data[0].bukti4+'" title="ImageName">Download Bukti 4</a><br/><br/>');
+                }
             }
         });
     }
@@ -319,7 +332,7 @@
         </div><!-- /.modal -->
         
         <div id="datamodal-detail" class="modal fade">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="width: 1055px;">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

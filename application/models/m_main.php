@@ -154,6 +154,7 @@ class M_main extends CI_Model {
         );
         $this->db->insert('tb_pendaftaran', $data_array);
         $id_pendaftaran = $this->db->insert_id();
+        $result['id'] = $id_pendaftaran;
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
         }
@@ -440,6 +441,7 @@ class M_main extends CI_Model {
             'jenis_daftar' => 'SUMB'
         );
         $this->db->insert('tb_pendaftaran', $data_array);
+        $result['id'] = $this->db->insert_id();
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             $result['status'] = FALSE;
